@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Maze
 {
@@ -31,6 +30,27 @@ public class Maze
         return _walls[x][y].verticalRight;
     }
 
+    public void SetWallBetween(int cellX, int cellY, Direction dir, bool exists)
+    {
+        DirectionMetohods.RequireDefined(dir, "Maze.SetWallBetween(int, int, Direction, bool)");
+        if (dir == Direction.Top)
+        {
+            SetHorizontalWall(cellX + 1, cellY, exists);
+        }
+        else if (dir == Direction.Bottom)
+        {
+            SetHorizontalWall(cellX + 1, cellY + 1, exists);
+        }
+        else if (dir == Direction.Left)
+        {
+            SetVerticalWall(cellX, cellY + 1, exists);
+        }
+        else if (dir == Direction.Right)
+        {
+            SetVerticalWall(cellX + 1, cellY + 1, exists);
+        }
+    }
+
     public void SetHorizontalWall(int x, int y, bool exists)
     {
         Cell cell = _walls[x][y];
@@ -42,6 +62,18 @@ public class Maze
         Cell cell = _walls[x][y];
         cell.verticalRight = exists;
         _walls[x][y] = cell;
+    }
+
+    public void SetAllWalls()
+    {
+        for (int x = 0; x <= SizeX(); x++)
+        {
+            for (int y = 0; y <= SizeY(); y++)
+            {
+                SetHorizontalWall(x, y, true);
+                SetVerticalWall(x, y, true);
+            }
+        }
     }
 
     public void CreateBorder()
