@@ -2,64 +2,28 @@
 
 public enum Direction : int
 {
-    Undefined = 0,
-    Top = 1,
+    Top = -2,
     Bottom = 2, 
-    Left = 3,
-    Right = 4,
+    Left = -1,
+    Right = 1,
 }
 
-static class DirectionMetohods
+public static class DirectionMetohods
 {
     public static (int x, int y) ApplyDirection(Direction dir, int x, int y)
     {
-        RequireDefined(dir, "DirectionMetohods.ApplyDirection(Direction, int, int)");
-        if (dir == Direction.Top)
-        {
-            --y;
-        } 
-        else if (dir == Direction.Bottom)
-        {
-            ++y;
-        }
-        else if (dir == Direction.Left)
-        {
-            --x;
-        }
-        else if (dir == Direction.Right)
-        {
-            ++x;
-        }
-        return (x ,y);
+        return (x + (int)dir % 2, y + (int)dir / 2);
     } 
 
     public static Direction GetOposite (Direction dir)
     {
-        RequireDefined(dir, "DirectionMetohods.GetOposite(Direction)");
-        if (dir == Direction.Top)
-        {
-            return Direction.Bottom;
-        }
-        else if (dir == Direction.Bottom)
-        {
-            return Direction.Top;
-        }
-        else if (dir == Direction.Left)
-        {
-            return Direction.Right;
-        }
-        else if (dir == Direction.Right)
-        {
-            return Direction.Left;
-        }
-        return Direction.Undefined;
+        return (Direction)(-(int)dir);
     }
 
-    public static void RequireDefined(Direction direction, string methodName)
+    public static Direction GenerateRandomDirection(Random rand)
     {
-        if (direction == Direction.Undefined)
-        {
-            throw new ArgumentException("Can't perform '" + methodName + "' on 'Direction.Undefined'.");
-        }   
+        Array directions = Enum.GetValues(typeof(Direction));
+        return (Direction)directions.GetValue(rand.Next(directions.Length));
     }
+
 }

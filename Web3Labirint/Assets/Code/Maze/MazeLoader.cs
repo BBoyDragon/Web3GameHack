@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 public class MazeLoader
 {
@@ -31,6 +28,34 @@ public class MazeLoader
                 (int x, int y, string symbol) => { maze.SetVerticalWall(x, y, symbol == "1"); return true; });
 
             return maze;
+        }
+    }
+
+    public static void SaveToFile(string path, Maze maze)
+    {
+        using (StreamWriter writer = new(path))
+        {
+            int sizeX = maze.SizeX();
+            int sizeY = maze.SizeY();
+            writer.WriteLine(sizeX + " " + sizeY);
+            writer.WriteLine();
+            
+            var horizintalBuilder = new StringBuilder();
+            var verticalBuilder = new StringBuilder();
+            for (int y = 0; y <= sizeY; y++)
+            {
+                for (int x = 0; x <= sizeX; x++)
+                {
+                    horizintalBuilder.Append((maze.IsHorizontalWall(x, y) ? "1" : "0") + " ");
+                    verticalBuilder.Append((maze.IsVerticalWall(x, y) ? "1" : "0") + " ");
+                }
+                horizintalBuilder.AppendLine();
+                verticalBuilder.AppendLine();
+            }
+
+            writer.Write(horizintalBuilder.ToString());
+            writer.WriteLine();
+            writer.Write(verticalBuilder.ToString());
         }
     }
 
@@ -63,34 +88,6 @@ public class MazeLoader
         catch (FormatException)
         {
             throw new ArgumentException("Can't parse sizeX to INT. Found: '" + dimention + "'");
-        }
-    }
-
-    public static void SaveToFile(string path, Maze maze)
-    {
-        using (StreamWriter writer = new(path))
-        {
-            int sizeX = maze.SizeX();
-            int sizeY = maze.SizeY();
-            writer.WriteLine(sizeX + " " + sizeY);
-            writer.WriteLine();
-            
-            var horizintalBuilder = new StringBuilder();
-            var verticalBuilder = new StringBuilder();
-            for (int y = 0; y <= sizeY; y++)
-            {
-                for (int x = 0; x <= sizeX; x++)
-                {
-                    horizintalBuilder.Append((maze.IsHorizontalWall(x, y) ? "1" : "0") + " ");
-                    verticalBuilder.Append((maze.IsVerticalWall(x, y) ? "1" : "0") + " ");
-                }
-                horizintalBuilder.AppendLine();
-                verticalBuilder.AppendLine();
-            }
-
-            writer.Write(horizintalBuilder.ToString());
-            writer.WriteLine();
-            writer.Write(verticalBuilder.ToString());
         }
     }
 }

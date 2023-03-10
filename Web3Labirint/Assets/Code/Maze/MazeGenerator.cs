@@ -16,7 +16,6 @@ public class MazeGenerator
         int startY = rand.Next(sizeY);
 
         cells[startX, startY].isVisited = true;
-        cells[startX, startY].child = Direction.Undefined;
 
         int cellsLeft = sizeX * sizeY - 1;
         while(cellsLeft > 0)
@@ -29,7 +28,7 @@ public class MazeGenerator
             int curCellY = walkStartCellY;
             while(!cells[curCellX, curCellY].isVisited)
             {
-                Direction dir = (Direction) (rand.Next(4) + 1);
+                Direction dir = DirectionMetohods.GenerateRandomDirection(rand);
                 (int x, int y) = DirectionMetohods.ApplyDirection(dir, curCellX, curCellY);
                 if (CellExists(x, y, sizeX, sizeY))
                 {
@@ -40,7 +39,7 @@ public class MazeGenerator
             }
 
             // Retrace 
-            while(walkStartCellX != curCellX || walkStartCellY != curCellY)
+            while (walkStartCellX != curCellX || walkStartCellY != curCellY)
             {
                 Direction dir = cells[walkStartCellX, walkStartCellY].child;
                 maze.SetWallBetween(walkStartCellX, walkStartCellY, dir, false);
@@ -52,7 +51,7 @@ public class MazeGenerator
 
         return maze;
     }
-    
+
     private struct Cell
     {
         public bool isVisited;

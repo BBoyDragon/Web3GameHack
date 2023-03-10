@@ -5,34 +5,29 @@ public class Maze
 {
     public Maze(int sizeX, int sizeY)
     {
-        _walls = new List<List<Cell>>(sizeX + 1);
-        for (int i = 0; i < sizeX + 1; i++)
-        {
-            _walls.Add(new List<Cell>(new Cell[sizeY + 1]));
-        }
+        _walls = new Cell[sizeX + 1, sizeY + 1];
     }
 
     public int SizeX()
     {
-        return Math.Max(_walls.Count - 1, 0);
+        return Math.Max(_walls.GetLength(0) - 1, 0);
     }
     public int SizeY()
     {
-        return _walls.Count > 0 ? Math.Max(_walls[0].Count - 1, 0) : 0;
+        return Math.Max(_walls.GetLength(1) - 1, 0);
     }
 
     public bool IsHorizontalWall(int x, int y)
     {
-        return _walls[x][y].horizontalBottom;
+        return _walls[x, y].horizontalBottom;
     }
     public bool IsVerticalWall(int x, int y)
     {
-        return _walls[x][y].verticalRight;
+        return _walls[x, y].verticalRight;
     }
 
     public void SetWallBetween(int cellX, int cellY, Direction dir, bool exists)
     {
-        DirectionMetohods.RequireDefined(dir, "Maze.SetWallBetween(int, int, Direction, bool)");
         if (dir == Direction.Top)
         {
             SetHorizontalWall(cellX + 1, cellY, exists);
@@ -53,15 +48,11 @@ public class Maze
 
     public void SetHorizontalWall(int x, int y, bool exists)
     {
-        Cell cell = _walls[x][y];
-        cell.horizontalBottom = exists;
-        _walls[x][y] = cell;
+        _walls[x, y].horizontalBottom = exists;
     }
     public void SetVerticalWall(int x, int y, bool exists)
     {
-        Cell cell = _walls[x][y];
-        cell.verticalRight = exists;
-        _walls[x][y] = cell;
+        _walls[x, y].verticalRight = exists;
     }
 
     public void SetAllWalls()
@@ -78,8 +69,8 @@ public class Maze
 
     public void CreateBorder()
     {
-        int sizeX = _walls.Count;
-        int sizeY = _walls[0].Count;
+        int sizeX = _walls.GetLength(0);
+        int sizeY = _walls.GetLength(1);
         CreateHorizontalBorders(sizeX, sizeY);
         CreateVerticalBorders(sizeX, sizeY);
     }
@@ -100,7 +91,7 @@ public class Maze
         }
     }
 
-    private List<List<Cell>> _walls;
+    private Cell[,] _walls;
 
     private struct Cell
     {
