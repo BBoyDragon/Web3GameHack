@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class MazeGenerator
 {
@@ -11,7 +12,7 @@ public class MazeGenerator
 
         Cell[,] cells = new Cell[sizeX, sizeY];
 
-        var rand = new Random();
+        var rand = new System.Random();
         int startX = rand.Next(sizeX);
         int startY = rand.Next(sizeY);
 
@@ -20,31 +21,28 @@ public class MazeGenerator
         int cellsLeft = sizeX * sizeY - 1;
         while(cellsLeft > 0)
         {
-            int walkStartCellX = rand.Next(sizeX);
-            int walkStartCellY = rand.Next(sizeY);
-            
-            // WALK!
-            int curCellX = walkStartCellX;
-            int curCellY = walkStartCellY;
-            while(!cells[curCellX, curCellY].isVisited)
+            Vector2Int startCell = new (rand.Next(sizeX), rand.Next(sizeY));
+
+            // Walk
+            Vector2Int curCell = new (startCell.x, startCell.y);
+            while(!cells[curCell.x, curCell.y].isVisited)
             {
                 Direction dir = DirectionMetohods.GenerateRandomDirection(rand);
-                (int x, int y) = DirectionMetohods.ApplyDirection(dir, curCellX, curCellY);
-                if (CellExists(x, y, sizeX, sizeY))
+                Vector2Int nextCell = DirectionMetohods.ApplyDirection(curCell, dir);
+                if (CellExists(nextCell, sizeX, sizeY))
                 {
-                    cells[curCellX, curCellY].child = dir;
-                    curCellX = x;
-                    curCellY = y;
+                    cells[curCell.x, curCell.y].child = dir;
+                    curCell = nextCell;
                 }
             }
 
-            // Retrace 
-            while (walkStartCellX != curCellX || walkStartCellY != curCellY)
+            // Cut walk
+            while (startCell.x != curCell.x || startCell.y != curCell.y)
             {
-                Direction dir = cells[walkStartCellX, walkStartCellY].child;
-                maze.SetWallBetween(walkStartCellX, walkStartCellY, dir, false);
-                cells[walkStartCellX, walkStartCellY].isVisited = true;
-                (walkStartCellX, walkStartCellY) = DirectionMetohods.ApplyDirection(dir, walkStartCellX, walkStartCellY);
+                Direction dir = cells[startCell.x, startCell.y].child;
+                maze.SetWallBetween(startCell.x, startCell.y, dir, false);
+                cells[startCell.x, startCell.y].isVisited = true;
+                startCell = DirectionMetohods.ApplyDirection(startCell, dir);
                 --cellsLeft;
             }
         }
@@ -58,8 +56,8 @@ public class MazeGenerator
         public Direction child;
     }
 
-    private static bool CellExists(int givenX, int givenY, int sizeX, int sizeY)
+    private static bool CellExists(Vector2Int cell, int sizeX, int sizeY)
     {
-        return 0 <= givenX && givenX < sizeX && 0 <= givenY && givenY < sizeY;
+        return 0 <= cell.x && cell.x < sizeX && 0 <= cell.y && cell.y < sizeY;
     }
 }
