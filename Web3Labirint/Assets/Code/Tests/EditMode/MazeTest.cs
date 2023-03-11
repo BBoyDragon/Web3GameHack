@@ -1,13 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 public class MazeTest
 {
-    private static string _prefix = "Assets/Code/Tests/Generated/";
+    private static string _prefix = "Assets/Code/Tests/";
     private static System.Random _random = new();
     private static int _maxSizeX = 100;
     private static int _maxSizeY = 100;
@@ -39,7 +35,7 @@ public class MazeTest
         }
     }
 
-    [Test]
+    [Test, Order(1)]
     public void SaveToFileTest()
     {
         var maze = new Maze(_sizeX, _sizeY);
@@ -48,7 +44,7 @@ public class MazeTest
         MazeLoader.SaveToFile(_prefix + "mazeWithBorders.txt", maze);
     }
 
-    [Test]
+    [Test, Order(2)]
     public void LoadFromFileTest()
     {
         var maze = MazeLoader.LoadFromFile(_prefix + "mazeWithBorders.txt");
