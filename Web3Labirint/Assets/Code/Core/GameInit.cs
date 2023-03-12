@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 internal sealed class GameInit : IDisposable
 {
-    HelloWorldController temp;
+    private MetaData _data;
+
+    private PlayerController _playerController;
     public GameInit(ControllerManager behaviourController, GameController mainController)
     {
-        temp = new HelloWorldController();
-        behaviourController.Add(temp);
+        _data = Resources.Load<MetaData>("MetaData");
+        _playerController = new PlayerController(_data.PlayerData);
+        behaviourController.Add(_playerController);
     }
 
 
