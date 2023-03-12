@@ -10,10 +10,10 @@ public class DirectionTest
         int x = _random.Next();
         int y = _random.Next();
 
-        Assert.AreEqual((x, y - 1), DirectionMetohods.ApplyDirection(Direction.Top, x, y));
-        Assert.AreEqual((x, y + 1), DirectionMetohods.ApplyDirection(Direction.Bottom, x, y));
-        Assert.AreEqual((x - 1, y), DirectionMetohods.ApplyDirection(Direction.Left, x, y));
-        Assert.AreEqual((x + 1, y), DirectionMetohods.ApplyDirection(Direction.Right, x, y));
+        Assert.AreEqual(new UnityEngine.Vector2Int(x, y - 1), DirectionMetohods.ApplyDirection(new(x, y), Direction.Top));
+        Assert.AreEqual(new UnityEngine.Vector2Int(x, y + 1), DirectionMetohods.ApplyDirection(new(x, y), Direction.Bottom));
+        Assert.AreEqual(new UnityEngine.Vector2Int(x - 1, y), DirectionMetohods.ApplyDirection(new(x, y), Direction.Left));
+        Assert.AreEqual(new UnityEngine.Vector2Int(x + 1, y), DirectionMetohods.ApplyDirection(new(x, y), Direction.Right));
     }
     
     [Test]
