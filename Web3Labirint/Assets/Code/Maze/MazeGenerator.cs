@@ -23,7 +23,7 @@ public class MazeGenerator
                 unfilled.Add(ver);
             }
         }
-
+        
         var maze = new Maze(sizeX, sizeY);
         maze.CreateBorder();
 
@@ -63,7 +63,7 @@ public class MazeGenerator
 
         set.Union(topLeftHor, topLeftVert);
 
-        var rand = new System.Random(228);
+        var rand = new System.Random();
         var targetCount = unfilled.Count / 2; 
         while(unfilled.Count != targetCount)
         {
@@ -86,7 +86,6 @@ public class MazeGenerator
                 }
             } 
             unfilled.Remove(cell);
-            // MazeLoader.SaveToFile("Assets/Code/Tests/KMaze/" + "KruskalGeneratedMaze_" + unfilled.Count + ".txt", maze);
         }
 
         return maze;
