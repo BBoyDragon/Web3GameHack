@@ -98,5 +98,13 @@ public class MazeTest
     {
         var maze = MazeGenerator.Generate(_sizeX, _sizeY);
         CheckBorders(maze);
+        MazeLoader.SaveToFile(_prefix + "GeneratedMaze.txt", maze);
+    }
+    
+    [Test]
+    public void KruskalGenerateTest()
+    {
+        var maze = MazeGenerator.KruskalGenerate(10, 10);
+        MazeLoader.SaveToFile(_prefix + "KruskalGeneratedMaze.txt", maze);
     }
 }
