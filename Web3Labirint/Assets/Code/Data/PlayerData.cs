@@ -7,9 +7,6 @@ public class PlayerData :ScriptableObject
 {
     [SerializeField]
     private int _speed;
-   
-
-
     [SerializeField]
     private PlayerView _view;
     [SerializeField]

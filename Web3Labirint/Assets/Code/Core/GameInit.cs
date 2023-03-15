@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using MazeUtils.Spawn;
+using Code.Menu;
 
 internal sealed class GameInit : IDisposable
 {
     private MetaData _data;
+    private MenuController _menuController;
 
     private PlayerController _playerController;
     private MazeController _mazeController;
@@ -16,6 +18,8 @@ internal sealed class GameInit : IDisposable
         behaviourController.Add(_playerController);
         _mazeController = new MazeController(_data.MazeData);
         behaviourController.Add(_playerController);
+        _menuController = new MenuController(_data.UiData);
+        behaviourController.Add(_menuController);
     }
 
 
