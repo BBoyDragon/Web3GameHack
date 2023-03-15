@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 
-namespace UnionFind
+namespace MazeUtils.Generators.KruskalsGeneratorUtils.UnionFind
 {
-    class Node<T>
-        where T : System.IComparable<T>
+    class Node<T> where T : System.IComparable<T>
     {
         public T Data { get; set; }
         public Node<T> Parent { get; set; }

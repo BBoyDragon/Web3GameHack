@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using MazeUtils;
 
 public class MazeLoader
 {
-    public static Maze LoadFromFile(string path)
+    public static IMaze LoadFromFile(string path)
     {
         using (StreamReader reader = new(path))
         {
@@ -31,7 +32,7 @@ public class MazeLoader
         }
     }
 
-    public static void SaveToFile(string path, Maze maze)
+    public static void SaveToFile(string path, IMaze maze)
     {
         using (StreamWriter writer = new(path))
         {

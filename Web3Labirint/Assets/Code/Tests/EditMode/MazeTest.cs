@@ -1,5 +1,8 @@
 using System;
 using NUnit.Framework;
+using MazeUtils;
+using MazeUtils.Generators;
+using MazeUtils.Generators.WilsonsGeneratorUtils;
 
 public class MazeTest
 {
@@ -19,7 +22,7 @@ public class MazeTest
         CheckBorders(maze);
     }
 
-    private static void CheckBorders(Maze maze)
+    private static void CheckBorders(IMaze maze)
     {
         int sizeX = maze.SizeX();
         int sizeY = maze.SizeY();
@@ -41,13 +44,13 @@ public class MazeTest
         var maze = new Maze(_sizeX, _sizeY);
         maze.CreateBorder();
         CheckBorders(maze);
-        MazeLoader.SaveToFile(_prefix + "mazeWithBorders.txt", maze);
+        MazeLoader.SaveToFile(_prefix + "bordersMaze.txt", maze);
     }
 
     [Test, Order(2)]
     public void LoadFromFileTest()
     {
-        var maze = MazeLoader.LoadFromFile(_prefix + "mazeWithBorders.txt");
+        var maze = MazeLoader.LoadFromFile(_prefix + "bordersMaze.txt");
         CheckBorders(maze);
     }
     
@@ -88,23 +91,23 @@ public class MazeTest
             }
 
             bool exists = func(x, y);
-            maze.SetWallBetween(x, y, dir, !exists);
+            DirectionMetohods.SetWallBetween(maze, x, y, dir, !exists);
             Assert.AreNotEqual(exists, func(x, y));
         }
     }
 
     [Test]
-    public void GenerateTest()
+    public void WilsonsGenerateTest()
     {
-        var maze = MazeGenerator.Generate(_sizeX, _sizeY);
+        IMaze maze = new WilsonsGenerator().Generate(_sizeX, _sizeY);
         CheckBorders(maze);
-        MazeLoader.SaveToFile(_prefix + "GeneratedMaze.txt", maze);
+        MazeLoader.SaveToFile(_prefix + "WilsonsGeneratedMaze.txt", maze);
     }
     
     [Test]
     public void KruskalGenerateTest()
     {
-        var maze = MazeGenerator.KruskalGenerate(10, 10);
+        var maze = new KruskalsGenerator().Generate(10, 10);
         MazeLoader.SaveToFile(_prefix + "KruskalGeneratedMaze.txt", maze);
     }
 }
