@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf81fdd6b86f4447a8ed7b0088b568e, type: 3}
+  m_Name: MazeData
+  m_EditorClassIdentifier: 
+  _mazeCellPrefab: {fileID: 1389555430699068459, guid: 7474b692f5653654fa58a2a22931abde, type: 3}
+  _view: {fileID: 782500490525884254, guid: e268decca5d24364d908d1180fede966, type: 3}
+  _cellSize: 3

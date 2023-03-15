@@ -9,4 +9,9 @@ public class MetaData : ScriptableObject
     private PlayerData _playerData;
 
     public PlayerData PlayerData { get => _playerData; }
+    
+    [SerializeField]
+    private MazeData _mazeData;
+
+    public MazeData MazeData { get => _mazeData; }
 }

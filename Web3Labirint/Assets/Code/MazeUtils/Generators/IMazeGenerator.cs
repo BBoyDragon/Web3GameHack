@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MazeUtils
+namespace MazeUtils.Generators
 {
     public interface IMazeGenerator
     {

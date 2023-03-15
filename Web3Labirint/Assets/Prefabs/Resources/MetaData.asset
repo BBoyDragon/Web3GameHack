@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: MetaData
   m_EditorClassIdentifier: 
   _playerData: {fileID: 11400000, guid: 9d5fa0bb8b9abb74895ed60b8a84f0c6, type: 2}
+  _mazeData: {fileID: 11400000, guid: 2a691b8f496a10542b946178e941c087, type: 2}
