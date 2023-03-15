@@ -1,19 +1,32 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 
 namespace Code.Menu
 {
     public class UIBehaviour : MonoBehaviour
     {
-        private static readonly int Transparency = Animator.StringToHash("Transparency");
 
-        public void IncreaseSize()
+        [SerializeField]
+        private Animator _animator;
+        [SerializeField]
+        private Button _startButton;
+
+        public Animator Animator { get => _animator;}
+
+        public event Action OnStartButtonClick;
+
+        public void Init()
         {
-            transform.LeanScale(new Vector3(1.5f, 1.5f, 1.5f), 0.1f).setEaseInOutSine();
+            _startButton.onClick.AddListener(OnStart);
         }
-
-        public void IncreaseTransparency()
+        public void CleanUp()
         {
-            GetComponent<Animator>().SetTrigger(Transparency);
+            _startButton.onClick.RemoveAllListeners();
+        }
+        private void OnStart()
+        {
+            OnStartButtonClick?.Invoke();
         }
     }
 }
