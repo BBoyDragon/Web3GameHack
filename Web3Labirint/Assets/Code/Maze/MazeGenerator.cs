@@ -65,7 +65,7 @@ public class MazeGenerator
 
         var rand = new System.Random();
         var targetCount = unfilled.Count / 2; 
-        while(unfilled.Count != targetCount)
+        while(unfilled.Count > targetCount)
         {
             Cell6 cell = unfilled[rand.Next(unfilled.Count)];
             if(!HasNeighboursFromSameSets(set, cell))
@@ -165,6 +165,11 @@ public class MazeGenerator
             this.isFilled = false;
         }
 
+        public override string ToString()
+        {
+            return (isHor ? "hor" : "vert") + " " + coords.ToString() + " " + (isFilled ? "filled" : "");
+        }
+
         public Cell6[] GetTopLeftFilledNeighbours()
         {
             Cell6[] topLeftNeighbours = new Cell6[3];
@@ -173,7 +178,7 @@ public class MazeGenerator
             {
                 topLeftNeighbours[0] = new(false, coords + new Vector2Int(-1, 1));
                 topLeftNeighbours[1] = new(true, coords + new Vector2Int(-1, 0));
-                topLeftNeighbours[2] = new(false, coords + new Vector2Int(1, 1));
+                topLeftNeighbours[2] = new(false, coords + new Vector2Int(-1, 0));
             } 
             else
             {
