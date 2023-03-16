@@ -16,4 +16,8 @@ public class MetaData : ScriptableObject
     [SerializeField]
     private MazeData _mazeData;
     public MazeData MazeData { get => _mazeData; }
+
+    [SerializeField]
+    private CameraData _cameraData;
+    public CameraData CameraData { get => _cameraData; }
 }

@@ -9,13 +9,15 @@ public class PlayerController :IExecute,ICleanup
     Canvas _canvas;
     PlayerView _view;
 
+    public PlayerView View { get => _view;}
+
     public PlayerController(PlayerData data)
     {
         _data = data;
         _view = GameObject.Instantiate<PlayerView>(_data.View);
         _canvas = GameObject.Instantiate<Canvas>(_data.Canvas);
-        _view.Init();
-        _movement = new MovementController(_view,_data.Speed,_data.Joystick,_canvas);
+        View.Init();
+        _movement = new MovementController(View,_data.Speed,_data.Joystick,_canvas);
     }
 
     public void Execute()
