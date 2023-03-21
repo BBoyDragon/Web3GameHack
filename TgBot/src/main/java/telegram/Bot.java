@@ -13,6 +13,10 @@ import java.util.Objects;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.codec.binary.Base64;
+
 public class Bot extends TelegramLongPollingBot {
     private final Dotenv dotenv;
 
@@ -32,16 +36,32 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        var msg = update.getMessage();
-        var user = msg.getFrom();
+        var user = update.getCallbackQuery().getFrom();
         var id = user.getId();
+        var userName = user.getUserName();
+        var firstName = user.getFirstName();
+        var lastName = user.getLastName();
+        var locale = user.getLanguageCode();
+        try {
+            String secret = getBotToken();;
+            String message = id + '\n' + userName + '\n' + firstName + '\n' + lastName + '\n' + locale + '\n' + dotenv.get("BOT_KEY");
 
-        if(msg.isCommand()){
-            if(msg.getText().equals("/play")) {
-                onPlay(id, msg);
-            }
-            return;
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+
+            String hash = Base64.encodeBase64String(sha256_HMAC.doFinal(message.getBytes()));
+            System.out.println(hash);
         }
+        catch (Exception e){
+            System.out.println("Error");
+        }
+//        if(msg.isCommand()){
+//            if(msg.getText().equals("/play")) {
+//                onPlay(id, msg);
+//            }
+//            return;
+//        }
     }
 
     private void onPlay(Long id, Message msg) {
@@ -62,9 +82,9 @@ public class Bot extends TelegramLongPollingBot {
         SendMessage sm = SendMessage.builder()
                 .text(what)
                 .chatId(who.toString()) //Who are we sending a message to
+                .replyMarkup(markupInline)
                 .build();    //Message content
 
-        sm.setReplyMarkup(markupInline);
         try {
             execute(sm);                        //Actually sending the message
         } catch (TelegramApiException e) {
