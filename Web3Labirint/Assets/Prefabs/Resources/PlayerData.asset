@@ -17,3 +17,4 @@ MonoBehaviour:
   _camera: {fileID: 0}
   _joystick: {fileID: 2929252283123773951, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
   _canvas: {fileID: 404524774070165927, guid: 5d67895f21ba2854aabfb732d6ae810d, type: 3}
+  _chalkData: {fileID: 11400000, guid: c14bc2f200ac0084cb04672d9b2b0faf, type: 2}

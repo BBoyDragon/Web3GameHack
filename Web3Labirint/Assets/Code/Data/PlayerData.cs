@@ -17,7 +17,10 @@ public class PlayerData :ScriptableObject
     [SerializeField]
     private Canvas _canvas;
 
-   
+    [SerializeField]
+    private ChalkData _chalkData;
+    public ChalkData ChalkData { get => _chalkData; }
+
 
 
     public int Speed { get => _speed;}
