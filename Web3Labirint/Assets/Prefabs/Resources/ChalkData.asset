@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c8afa4bcddc8c24bb498927e7d91b78, type: 3}
+  m_Name: ChalkData
+  m_EditorClassIdentifier: 
+  _diePosition: -2
+  _maxAmountOfChalk: 100
+  _chalkPerSecond: 3
+  View: {fileID: 2896795125536770971, guid: bcfc0a8edd7891544a4498b8608de66a, type: 3}
+  _brush: {fileID: 6447969792843621046, guid: c183b7a0cf2c24943ba820e2c9da9eb6, type: 3}
