@@ -13,10 +13,6 @@ import java.util.Objects;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Base64;
-
 public class Bot extends TelegramLongPollingBot {
     private final Dotenv dotenv;
 
@@ -33,28 +29,26 @@ public class Bot extends TelegramLongPollingBot {
     public String getBotToken() {
         return dotenv.get("BOT_TOKEN");
     }
+    public String getBotKey() {
+        return dotenv.get("BOT_KEY");
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
-        var user = update.getCallbackQuery().getFrom();
-        var id = user.getId();
-        var userName = user.getUserName();
-        var firstName = user.getFirstName();
-        var lastName = user.getLastName();
-        var locale = user.getLanguageCode();
+        final var user = update.getMessage().getFrom();
+        final var id = user.getId();
+        final var userName = user.getUserName();
+        final var firstName = user.getFirstName();
+        final var lastName = user.getLastName();
+        final UserInfo userInfo = new UserInfo(id, firstName, lastName, userName);
+        final String botToken = getBotToken();
+        final String botKey = getBotKey();
         try {
-            String secret = getBotToken();;
-            String message = id + '\n' + userName + '\n' + firstName + '\n' + lastName + '\n' + locale + '\n' + dotenv.get("BOT_KEY");
-
-            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-            SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
-            sha256_HMAC.init(secret_key);
-
-            String hash = Base64.encodeBase64String(sha256_HMAC.doFinal(message.getBytes()));
-            System.out.println(hash);
+            String jwt = JWTRequester.generateJWT(userInfo, botKey, botToken);
+            System.out.println("JWT recieved!!!: " + jwt);
         }
         catch (Exception e){
-            System.out.println("Error");
+            System.out.println("Error " + e);
         }
 //        if(msg.isCommand()){
 //            if(msg.getText().equals("/play")) {
