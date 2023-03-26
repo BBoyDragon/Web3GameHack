@@ -221,7 +221,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &705507994
 Light:
   m_ObjectHideFlags: 0
@@ -675,7 +675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &2087160536
 Light:
   m_ObjectHideFlags: 0
@@ -847,6 +847,10 @@ PrefabInstance:
     - target: {fileID: 766911218394062836, guid: 4135ff72e2c320f4ea11475edbe5389b, type: 3}
       propertyPath: m_Name
       value: Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 766911218394062836, guid: 4135ff72e2c320f4ea11475edbe5389b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 766911218394062839, guid: 4135ff72e2c320f4ea11475edbe5389b, type: 3}
       propertyPath: m_Camera
