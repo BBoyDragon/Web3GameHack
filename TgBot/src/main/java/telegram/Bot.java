@@ -3,6 +3,8 @@ package telegram;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.*;
@@ -33,9 +35,38 @@ public class Bot extends TelegramLongPollingBot {
         return dotenv.get("BOT_KEY");
     }
 
+    public String getBotDomain() {
+        return dotenv.get("BOT_DOMAIN");
+    }
+
+    private void addKeyboardStartButton(Long id, String jwt) {
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
+        WebAppInfo webApp = WebAppInfo.builder()
+                .url(getBotDomain() + "?token=" + jwt).build();
+        InlineKeyboardButton loginButton = InlineKeyboardButton.builder()
+                .text("Login").webApp(webApp).build();
+        rowInline.add(loginButton);
+        rowsInline.add(rowInline);
+        InlineKeyboardMarkup markupInline = InlineKeyboardMarkup.builder().keyboard(rowsInline).build();
+
+        SendMessage sm = SendMessage.builder()
+                .text("Start new game")
+                .chatId(id.toString())
+                .replyMarkup(markupInline)
+                .build();
+
+        try {
+            execute(sm);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void onUpdateReceived(Update update) {
-        final var user = update.getMessage().getFrom();
+        final var msg = update.getMessage();
+        final var user = msg.getFrom();
         final var id = user.getId();
         final var userName = user.getUserName();
         final var firstName = user.getFirstName();
@@ -45,45 +76,14 @@ public class Bot extends TelegramLongPollingBot {
         final String botKey = getBotKey();
         try {
             String jwt = JWTRequester.generateJWT(userInfo, botKey, botToken);
-            System.out.println("JWT recieved!!!: " + jwt);
+            if(msg.isCommand()) {
+                if (msg.getText().equals("/start")) {
+                    addKeyboardStartButton(id, jwt);
+                }
+            }
         }
         catch (Exception e){
             System.out.println("Error " + e);
-        }
-//        if(msg.isCommand()){
-//            if(msg.getText().equals("/play")) {
-//                onPlay(id, msg);
-//            }
-//            return;
-//        }
-    }
-
-    private void onPlay(Long id, Message msg) {
-        sendText(id, msg.getText());
-    }
-
-    public void sendText(Long who, String what){
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-        List<InlineKeyboardButton> rowInline = new ArrayList<>();
-        LoginUrl loginUrl = LoginUrl.builder()
-                .url(Objects.requireNonNull(dotenv.get("BOT_DOMAIN"))).build();
-        InlineKeyboardButton loginButton = InlineKeyboardButton.builder()
-                .text("Login").loginUrl(loginUrl).build();
-        rowInline.add(loginButton);
-        rowsInline.add(rowInline);
-        InlineKeyboardMarkup markupInline = InlineKeyboardMarkup.builder().keyboard(rowsInline).build();
-
-        SendMessage sm = SendMessage.builder()
-                .text(what)
-                .chatId(who.toString()) //Who are we sending a message to
-                .replyMarkup(markupInline)
-                .build();    //Message content
-
-        try {
-            execute(sm);                        //Actually sending the message
-        } catch (TelegramApiException e) {
-            System.out.println(what);
-            throw new RuntimeException(e);      //Any error will be printed here
         }
     }
 }
