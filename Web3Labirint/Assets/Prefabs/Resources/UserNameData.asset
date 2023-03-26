@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2233dc6511cb2c34a873f7bc0bcb2c32, type: 3}
+  m_Name: UserNameData
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 404524774070165927, guid: 5d67895f21ba2854aabfb732d6ae810d, type: 3}
+  _view: {fileID: 3998052453052157603, guid: 086204619bb298b4685f4cb4ae34aa3c, type: 3}
+  _text: {fileID: 4471505630150466485, guid: 6b4690e8a0594bb45934b2a7d55f0800, type: 3}
+  _userName: abacaba

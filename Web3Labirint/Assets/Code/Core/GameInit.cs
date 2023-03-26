@@ -12,6 +12,8 @@ internal sealed class GameInit : IDisposable
     private PlayerController _playerController;
     private MazeController _mazeController;
     private CameraController _cameraController;
+
+    private UserNameController _userNameController;
     public GameInit(ControllerManager behaviourController, GameController mainController)
     {
         _data = Resources.Load<MetaData>("MetaData");
@@ -24,6 +26,8 @@ internal sealed class GameInit : IDisposable
         _cameraController = new CameraController(_data.CameraData);
         _cameraController.SetTarget(_playerController.View.gameObject);
         behaviourController.Add(_cameraController);
+
+        _userNameController = new UserNameController(_data.UserNameData);
     }
 
 

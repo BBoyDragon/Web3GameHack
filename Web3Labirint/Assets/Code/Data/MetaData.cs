@@ -20,5 +20,8 @@ public class MetaData : ScriptableObject
     [SerializeField]
     private CameraData _cameraData;
     public CameraData CameraData { get => _cameraData; }
-
+    
+    [SerializeField]
+    private UserNameData _userNameData;
+    public UserNameData UserNameData { get => _userNameData; }
 }
