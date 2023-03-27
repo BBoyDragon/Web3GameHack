@@ -22,6 +22,6 @@ public class UserNameData : ScriptableObject
     public GameObject Text { get => _text; }
 
     [SerializeField]
-    private string _userName = "abacaba";
+    private string _userName = "hello";
     public string UserName { get => _userName; set => _userName = value; }
 }
