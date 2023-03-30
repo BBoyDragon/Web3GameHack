@@ -19,6 +19,6 @@ public class UserNameController
         _data = data;
         _canvas = GameObject.Instantiate<Canvas>(_data.Canvas);
         _view = GameObject.Instantiate<UserNameView>(_data.View);
-        _view.setFields(_data, _canvas, _view);
+        _view.SetFields(_data, _canvas);
     }
 }
