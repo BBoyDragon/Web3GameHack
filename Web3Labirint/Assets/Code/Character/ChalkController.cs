@@ -42,4 +42,8 @@ public class ChalkController :IExecute
             SceneManager.LoadScene(0);
         }
     }
+    public void ActivateUI()
+    {
+        _view.gameObject.SetActive(true);
+    }
 }

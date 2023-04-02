@@ -21,8 +21,8 @@ internal sealed class GameInit : IDisposable
         _playerController = new PlayerController(_data.PlayerData);
         behaviourController.Add(_playerController);
         _mazeController = new MazeController(_data.MazeData);
-        //behaviourController.Add(_playerController);
-        //_menuController = new MenuController(_data.UiData);
+        _menuController = new MenuController(_data.UiData);
+        _menuController.OnStartGame += _playerController.ActivateUI;
         behaviourController.Add(_menuController);
         _cameraController = new CameraController(_data.CameraData);
         _cameraController.SetTarget(_playerController.View.gameObject);
@@ -38,5 +38,6 @@ internal sealed class GameInit : IDisposable
 
     public void Dispose()
     {
+        _menuController.OnStartGame -= _playerController.ActivateUI;
     }
 }

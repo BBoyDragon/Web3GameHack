@@ -41,6 +41,7 @@ namespace MazeUtils.Spawn
                     mazeCell.Init(top, bottom, left, right, _mazeData.CellSize);
                 }
             }
+            _mazeView.transform.position = new Vector3(0, 0, 0);
         }
     }
 }

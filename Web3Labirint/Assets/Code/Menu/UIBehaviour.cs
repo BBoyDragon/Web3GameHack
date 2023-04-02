@@ -15,6 +15,7 @@ namespace Code.Menu
         public Animator Animator { get => _animator;}
 
         public event Action OnStartButtonClick;
+        public event Action OnGameStarted;
 
         public void Init()
         {
@@ -27,6 +28,11 @@ namespace Code.Menu
         private void OnStart()
         {
             OnStartButtonClick?.Invoke();
+        }
+
+        public void StartGame()
+        {
+            OnGameStarted?.Invoke();
         }
     }
 }

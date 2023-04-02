@@ -27,6 +27,12 @@ public class PlayerController :IExecute,ICleanup
         _movementController.Execute();
         _chalkController.Execute();
     }
+    public void ActivateUI()
+    {
+        _canvas.gameObject.SetActive(true);
+        _chalkController.ActivateUI();
+    }
+
     public void Cleanup()
     {
     }
