@@ -11,7 +11,7 @@ public class TreasureController :ICleanup
     public TreasureController(TreasureData data)
     {
         _data = data;
-        _view = GameObject.Instantiate<TreasureView>(_data.View, new Vector3(Random.Range(5, 55), 1, Random.Range(5, 55)), Quaternion.identity);
+        _view = GameObject.Instantiate<TreasureView>(_data.View, new Vector3(Random.Range(0, 20)*3-0.5f, 1, Random.Range(0, 20) * 3 +2.5f), Quaternion.identity);
         _view.OnCatchTreasure += Win;
     }
 
