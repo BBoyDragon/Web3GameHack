@@ -24,4 +24,8 @@ public class MetaData : ScriptableObject
     [SerializeField]
     private UserNameData _userNameData;
     public UserNameData UserNameData { get => _userNameData; }
+
+    [SerializeField]
+    private TreasureData _treasureData;
+    public TreasureData TreasureData { get => _treasureData; }
 }

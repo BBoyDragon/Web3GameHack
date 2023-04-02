@@ -15,3 +15,4 @@ MonoBehaviour:
   _mazeCellPrefab: {fileID: 1389555430699068459, guid: 7474b692f5653654fa58a2a22931abde, type: 3}
   _view: {fileID: 782500490525884254, guid: e268decca5d24364d908d1180fede966, type: 3}
   _cellSize: 3
+  _mazeSize: 20

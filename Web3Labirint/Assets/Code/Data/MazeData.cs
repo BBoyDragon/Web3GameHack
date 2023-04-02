@@ -17,4 +17,8 @@ public class MazeData : ScriptableObject
     private float _cellSize = 1.0f;
     public float CellSize { get => _cellSize; }
 
+    [SerializeField]
+    private int _mazeSize;
+    public int MazeSize { get => _mazeSize;}
+
 }

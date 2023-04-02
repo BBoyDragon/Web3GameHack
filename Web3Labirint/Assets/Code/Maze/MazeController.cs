@@ -24,7 +24,7 @@ namespace MazeUtils.Spawn
 
         private void Generate()
         {
-            IMaze maze = _mazeGenerator.Generate(20, 20);
+            IMaze maze = _mazeGenerator.Generate(_mazeData.MazeSize,_mazeData.MazeSize);
 
             for (int x = 0; x < maze.SizeX(); x++)
             {

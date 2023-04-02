@@ -17,3 +17,4 @@ MonoBehaviour:
   _mazeData: {fileID: 11400000, guid: 2a691b8f496a10542b946178e941c087, type: 2}
   _cameraData: {fileID: 11400000, guid: d26aa9c47d172b64a85b226d634709d1, type: 2}
   _userNameData: {fileID: 11400000, guid: e35d221fed513cb498d40bdec61ba073, type: 2}
+  _treasureData: {fileID: 11400000, guid: 6b784b5dd998eef46975193bf89fca97, type: 2}
