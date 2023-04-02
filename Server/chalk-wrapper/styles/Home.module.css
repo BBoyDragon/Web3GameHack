@@ -1,0 +1,42 @@
+
+
+.container .unityWrapper {
+  background: #131314;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container .unityWrapper .loadingBar {
+  background: #272734;
+  width: 400px;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+}
+
+.container .unityWrapper .loadingBar .loadingBarFill {
+  height: 6px;
+  border-radius: 5px;
+  margin: 2px;
+  background-image: linear-gradient(
+    to right,
+    #131314,
+    #74cae7,
+    #7361ce,
+    #8f35a8
+  );
+  transition: 0.3s width ease-out;
+}
+
+.container .unityWrapper canvas {
+  width: 100%;
+  height: 100%;
+}
