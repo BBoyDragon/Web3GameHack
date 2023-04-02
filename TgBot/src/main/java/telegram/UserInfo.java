@@ -14,8 +14,18 @@ public class UserInfo {
     }
 
     public String getDataCheckString() {
-        return String.format("first_name=%s\nid=%d\nlast_name=%s\nusername=%s",
-                firstName, id, lastName, userName);
+        String s = "";
+        if (firstName != null) {
+            s += String.format("first_name=%s\n", firstName);
+        }
+        s += String.format("id=%d", id);
+        if (lastName != null) {
+            s += String.format("\nlast_name=%s", lastName);
+        }
+        if (userName != null) {
+            s += String.format("\nusername=%s", userName);
+        }
+        return s;
     }
     public String getPayloadString(String hash, String botKey) {
         return String.format("""

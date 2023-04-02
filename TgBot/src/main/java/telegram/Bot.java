@@ -17,16 +17,13 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class Bot extends TelegramLongPollingBot {
     private final Dotenv dotenv;
-
     public Bot() {
         dotenv = Dotenv.load();
     }
-
     @Override
     public String getBotUsername() {
         return dotenv.get("BOT_USERNAME");
     }
-
     @Override
     public String getBotToken() {
         return dotenv.get("BOT_TOKEN");
@@ -34,12 +31,11 @@ public class Bot extends TelegramLongPollingBot {
     public String getBotKey() {
         return dotenv.get("BOT_KEY");
     }
-
     public String getBotDomain() {
         return dotenv.get("BOT_DOMAIN");
     }
 
-    private void addKeyboardStartButton(Long id, String jwt) {
+    private void addKeyboardStartButton(long id, String jwt) {
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
         WebAppInfo webApp = WebAppInfo.builder()
@@ -52,10 +48,9 @@ public class Bot extends TelegramLongPollingBot {
 
         SendMessage sm = SendMessage.builder()
                 .text("Start new game")
-                .chatId(id.toString())
+                .chatId(Long.toString(id))
                 .replyMarkup(markupInline)
                 .build();
-
         try {
             execute(sm);
         } catch (TelegramApiException e) {
@@ -63,11 +58,27 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
+    private void sendMessage(long chatId, String message) throws TelegramApiException {
+        SendMessage messageToSend = SendMessage.builder()
+                .text(message)
+                .chatId(Long.toString(chatId))
+                .build();
+        execute(messageToSend);
+    }
+
     @Override
     public void onUpdateReceived(Update update) {
         final var msg = update.getMessage();
         final var user = msg.getFrom();
-        final var id = user.getId();
+        final long id = user.getId();
+        if (!(msg.isCommand() && msg.getText().equals("/start"))) {
+            try {
+                sendMessage(id, "This is not a command.\nTry again /start");
+            } catch (TelegramApiException e) {
+                System.err.println(e.getMessage());
+            }
+            return;
+        }
         final var userName = user.getUserName();
         final var firstName = user.getFirstName();
         final var lastName = user.getLastName();
@@ -76,14 +87,14 @@ public class Bot extends TelegramLongPollingBot {
         final String botKey = getBotKey();
         try {
             String jwt = JWTRequester.generateJWT(userInfo, botKey, botToken);
-            if(msg.isCommand()) {
-                if (msg.getText().equals("/start")) {
-                    addKeyboardStartButton(id, jwt);
-                }
-            }
+            addKeyboardStartButton(id, jwt);
         }
         catch (Exception e){
-            System.out.println("Error " + e);
+            try {
+                sendMessage(id, "\u26A0\uFE0F Something goes wrong...\n\uD83D\uDEE0 We are already fixing it!");
+            } catch (TelegramApiException telegramE) {
+                System.out.println("Error while sending a message: " + telegramE);
+            }
         }
     }
 }

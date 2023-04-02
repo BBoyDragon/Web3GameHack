@@ -19,11 +19,15 @@ public class JWTRequester {
         String hash = calculateHMac(botToken, dataCheckString);
         String payload = userInfo.getPayloadString(hash, botKey);
         String response = send(url, payload);
-        Object value = new JSONObject(response).get(expectedKey);
-        if (!(value instanceof String)) {
-            throw new RuntimeException("Unknown value for key '" + expectedKey + "': '" + value.getClass() + "'");
+        try {
+            Object value = new JSONObject(response).get(expectedKey);
+            if (!(value instanceof String)) {
+                throw new RuntimeException("Unknown value for key '" + expectedKey + "': '" + value.getClass() + "'");
+            }
+            return (String) value;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage() + " " + response);
         }
-        return (String) value;
     }
 
     private static final String ALGORITHM = "HmacSHA256";
