@@ -20,11 +20,13 @@ public class JWTRequester {
         String payload = userInfo.getPayloadString(hash, botKey);
         String response = send(url, payload);
         try {
-            Object value = new JSONObject(response).get(expectedKey);
-            if (!(value instanceof String)) {
-                throw new RuntimeException("Unknown value for key '" + expectedKey + "': '" + value.getClass() + "'");
+            Object token = new JSONObject(response).get(expectedKey);
+            if (token instanceof String tokenStr) {
+                return tokenStr;
             }
-            return (String) value;
+            else {
+                throw new RuntimeException("Unknown token for key '" + expectedKey + "': '" + token.getClass() + "'");
+            }
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage() + " " + response);
         }
