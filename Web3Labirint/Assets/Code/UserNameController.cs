@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
-public class UserNameController
+public class UserNameController:IExecute
 {
     UserNameData _data;
-    Canvas _canvas;
     UserNameView _view;
-
+    PlayerView _playerView;
     public UserNameView View { get => _view;}
 
-    public UserNameController(UserNameData data)
+    public UserNameController(UserNameData data,PlayerView playerView)
     {
         _data = data;
-        _canvas = GameObject.Instantiate<Canvas>(_data.Canvas);
+        _playerView = playerView;
         _view = GameObject.Instantiate<UserNameView>(_data.View);
-        _view.SetFields(_data, _canvas);
+    }
+
+    public void Execute()
+    {
+        _view.transform.position = new Vector3(_playerView.transform.position.x, _view.transform.position.y, _playerView.transform.position.z);
     }
 }

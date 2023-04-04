@@ -31,7 +31,9 @@ internal sealed class GameInit : IDisposable
         behaviourController.Add(_treasureController);
         _bonusController = new BonusController(_data.BonusData);
         _bonusController.OnBunusApyed += _playerController.ChalkController.Refresh;
-        _userNameController = new UserNameController(_data.UserNameData);
+
+        _userNameController = new UserNameController(_data.UserNameData,_playerController.View);
+        behaviourController.Add(_userNameController);
 
     }
 
