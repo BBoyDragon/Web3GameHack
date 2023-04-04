@@ -7,9 +7,9 @@ namespace Code.Menu
     public class ItemShopView : MonoBehaviour
     {
         [SerializeField] private Button buyButton;
-        [SerializeField] private RawImage image;
+        [SerializeField] private Image image;
 
-        public RawImage Image => image;
+        public Image Image => image;
         
         public event Action OnBuyButtonClick;
         

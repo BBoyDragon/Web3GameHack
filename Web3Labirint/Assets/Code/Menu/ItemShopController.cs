@@ -13,18 +13,17 @@ namespace Code.Menu
             _view = view;
             _view.Init();
             
-            
-            // UnityWebRequest request = UnityWebRequestTexture.GetTexture("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLFgrx_H5K9hkWU-sZLKFosqfKwLVKbBwbnnTZmbA9Lnau5XuUdutBrDcq4UxJVwGTcF0&usqp=CAU");
-            // request.SendWebRequest();
-            // while (!request.isDone) { }
-            //
-            // if(request.isNetworkError || request.isHttpError) 
-            //     Debug.Log(request.error);
-            // else
-            //     _view.Image.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
-            
-            
-            // _view.Image = ???
+            string url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLFgrx_H5K9hkWU-sZLKFosqfKwLVKbBwbnnTZmbA9Lnau5XuUdutBrDcq4UxJVwGTcF0&usqp=CAU";
+            Texture2D texture = _view.Image.canvasRenderer.GetMaterial().mainTexture as Texture2D;
+
+            using (WWW www = new WWW(url))
+            {
+                while (!www.isDone) { }
+                Debug.Log("Done!");
+                www.LoadImageIntoTexture(texture);
+                www.Dispose();
+            }
+
             _view.OnBuyButtonClick += Purchase;
         }
     
