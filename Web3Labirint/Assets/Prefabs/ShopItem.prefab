@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buyButton: {fileID: 602587027560362512}
-  image: {fileID: 0}
+  image: {fileID: 4381717402729879151}
 --- !u!1001 &530838818247856973
 PrefabInstance:
   m_ObjectHideFlags: 0
