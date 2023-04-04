@@ -54,12 +54,20 @@ namespace Code.Menu
         
         private void OpenShop()
         {
-            // here will be all requests to web
+            NFT.Asset[] assets = NFT.AssetsRequester.GetAllGameAssets();
+            var shopItemTransform = _data.ShopItem.gameObject.GetComponent<RectTransform>();
+            float shopItemHeight = shopItemTransform.rect.height;
+            var itemContainerTransform = _view.ShopItemsContainer.GetComponent<RectTransform>();
+            itemContainerTransform.sizeDelta = new Vector2(0, assets.Length * shopItemHeight + 100);
+            _shopItems = new ItemShopController[assets.Length];
+            float startCoord = - shopItemHeight * (assets.Length - 0.5f) - 50;
+            for (int i = 0; i < assets.Length; i++)
+            {
+                var view = Object.Instantiate(_data.ShopItem, _view.ShopItemsContainer.transform);
+                view.GetComponent<RectTransform>().localPosition = new Vector3(itemContainerTransform.rect.width / 2, startCoord + shopItemHeight * i, 0);
+                _shopItems[i] = new ItemShopController(view, assets[i].image);
+            }
             
-            _shopItems = new ItemShopController[1];
-            var view = Object.Instantiate(_data.ShopItem, _view.ShopItemsContainer.transform);
-            _shopItems[0] = new ItemShopController(view /* here are all params that will be needed in purchase */ );
-
             _view.ShopMenu.SetActive(true);
         }
 

@@ -8,16 +8,11 @@ namespace Code.Menu
     {
         private readonly ItemShopView _view;
         
-        public ItemShopController(ItemShopView view /* here are all params that will be needed in purchase AND IMAGE */)
+        public ItemShopController(ItemShopView view, string url)
         {
             _view = view;
             _view.Init();
             
-
-            NFT.Asset[] assets = NFT.AssetsRequester.GetAllGameAssets();
-            NFT.Asset asset = assets[2];
-
-            string url = asset.image;
             using (WWW www = new WWW(url))
             {
                 while (!www.isDone) { }
