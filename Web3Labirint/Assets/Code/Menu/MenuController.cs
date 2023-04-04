@@ -1,23 +1,28 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Purchasing;
 using UnityEngine;
+using Object = UnityEngine.Object;
+
 namespace Code.Menu
 {
     public class MenuController:ICleanup
     {
         private static readonly int Transparency = Animator.StringToHash("Transparency");
-        private UiData _data;
-        private UIBehaviour _view;
+        private readonly UiData _data;
+        private readonly UIBehaviour _view;
+        private ItemShopController[] _shopItems;
 
         public event Action OnStartGame;
         public MenuController(UiData data)
         {
             _data = data;
-            _view = GameObject.Instantiate<UIBehaviour>(_data.MenuView);
+            _view = Object.Instantiate(_data.MenuView);
             _view.Init();
             _view.OnStartButtonClick += IncreaseSize;
             _view.OnStartButtonClick += IncreaseTransparency;
+            _view.OnShopButtonClick += OpenShop;
             _view.OnGameStarted += StartGame;
         }
 
@@ -26,7 +31,13 @@ namespace Code.Menu
             _view.CleanUp();
             _view.OnStartButtonClick -= IncreaseSize;
             _view.OnStartButtonClick -= IncreaseTransparency;
+            _view.OnShopButtonClick -= OpenShop;
             _view.OnGameStarted -= StartGame;
+
+            foreach (var shopItem in _shopItems)
+            {
+                shopItem.CleanUp();
+            }
         }
 
         private void IncreaseSize()
@@ -38,21 +49,26 @@ namespace Code.Menu
         {
             _view.Animator.SetTrigger(Transparency);
         }
+        
+        private void OpenShop()
+        {
+            // here will be all requests to web
+            
+            _shopItems = new ItemShopController[1];
+            var view = Object.Instantiate(_data.ShopItem, _view.ShopItemsContainer.transform);
+            _shopItems[0] = new ItemShopController(view /* here are all params that will be needed in purchase */ );
+
+            _view.ShopMenu.SetActive(true);
+        }
+
         private void StartGame()
         {
             OnStartGame?.Invoke();
-            TogleSetActive();
+            ToggleSetActive();
         }
-        private void TogleSetActive()
+        private void ToggleSetActive()
         {
-            if (_view.enabled)
-            {
-                _view.gameObject.SetActive(false);
-            }
-            else
-            {
-                _view.gameObject.SetActive(true);
-            }
+            _view.gameObject.SetActive(!_view.enabled);
         }
 
     }

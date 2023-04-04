@@ -7,27 +7,38 @@ namespace Code.Menu
     public class UIBehaviour : MonoBehaviour
     {
 
-        [SerializeField]
-        private Animator _animator;
-        [SerializeField]
-        private Button _startButton;
+        [SerializeField] private Animator animator;
+        [SerializeField] private Button startButton;
+        [SerializeField] private Button shopButton;
+        [SerializeField] private GameObject shopMenu;
+        [SerializeField] private GameObject shopItemsContainer;
 
-        public Animator Animator { get => _animator;}
+        public Animator Animator => animator;
+        public GameObject ShopMenu => shopMenu;
+        public GameObject ShopItemsContainer => shopItemsContainer;
 
         public event Action OnStartButtonClick;
+        public event Action OnShopButtonClick;
         public event Action OnGameStarted;
 
         public void Init()
         {
-            _startButton.onClick.AddListener(OnStart);
+            startButton.onClick.AddListener(OnStart);
+            shopButton.onClick.AddListener(OnShopOpen);
         }
         public void CleanUp()
         {
-            _startButton.onClick.RemoveAllListeners();
+            startButton.onClick.RemoveAllListeners();
+            shopButton.onClick.RemoveAllListeners();
         }
         private void OnStart()
         {
             OnStartButtonClick?.Invoke();
+        }
+
+        private void OnShopOpen()
+        {
+            OnShopButtonClick?.Invoke();
         }
 
         public void StartGame()
