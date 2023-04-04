@@ -13,15 +13,16 @@ namespace Code.Menu
             _view = view;
             _view.Init();
             
-            string url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLFgrx_H5K9hkWU-sZLKFosqfKwLVKbBwbnnTZmbA9Lnau5XuUdutBrDcq4UxJVwGTcF0&usqp=CAU";
-            Texture2D texture = _view.Image.canvasRenderer.GetMaterial().mainTexture as Texture2D;
 
+            NFT.Asset[] assets = NFT.AssetsRequester.GetAllGameAssets();
+            NFT.Asset asset = assets[2];
+
+            string url = asset.image;
             using (WWW www = new WWW(url))
             {
                 while (!www.isDone) { }
                 Debug.Log("Done!");
-                www.LoadImageIntoTexture(texture);
-                www.Dispose();
+                _view.Image.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
             }
 
             _view.OnBuyButtonClick += Purchase;

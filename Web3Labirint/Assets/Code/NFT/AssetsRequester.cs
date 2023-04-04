@@ -104,7 +104,7 @@ namespace NFT
         public string address;
         public string name;
         public string description;
-        public string imageUrl;
+        public string image;
         public long quantity;
         public string rarity;
         public string category;

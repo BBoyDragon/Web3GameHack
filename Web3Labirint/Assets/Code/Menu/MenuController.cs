@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Purchasing;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -34,9 +33,12 @@ namespace Code.Menu
             _view.OnShopButtonClick -= OpenShop;
             _view.OnGameStarted -= StartGame;
 
-            foreach (var shopItem in _shopItems)
-            {
-                shopItem.CleanUp();
+            if (_shopItems != null) 
+            { 
+                foreach (var shopItem in _shopItems)
+                {
+                    shopItem.CleanUp();
+                }
             }
         }
 

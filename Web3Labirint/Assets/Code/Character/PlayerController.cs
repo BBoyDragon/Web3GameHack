@@ -15,7 +15,13 @@ public class PlayerController :IExecute,ICleanup
     public PlayerController(PlayerData data)
     {
         _data = data;
-        _view = GameObject.Instantiate<PlayerView>(_data.View);
+        
+        var asset = NFT.AssetsRequester.GetAllGameAssets()[2];
+        var attributes = asset.properties.GetAttributes();
+        var bundleUrl = attributes[0].value;
+        var assetName = attributes[1].value;
+        var bundle = NFT.BundleWebLoader.LoadBundle(bundleUrl);
+        _view = GameObject.Instantiate<PlayerView>((bundle.LoadAsset(assetName) as GameObject).GetComponent<PlayerView>());
         _canvas = GameObject.Instantiate<Canvas>(_data.Canvas);
         View.Init();
         _movementController = new MovementController(View,_data.Speed,_data.Joystick,_canvas);
