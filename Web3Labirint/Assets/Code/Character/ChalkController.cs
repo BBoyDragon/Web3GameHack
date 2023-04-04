@@ -42,6 +42,11 @@ public class ChalkController :IExecute
             SceneManager.LoadScene(0);
         }
     }
+
+    public void Refresh()
+    {
+        _curentAmountOfChalk = _data.MaxAmountOfChalk;
+    }
     public void ActivateUI()
     {
         _view.gameObject.SetActive(true);

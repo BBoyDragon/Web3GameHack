@@ -11,6 +11,7 @@ public class PlayerController :IExecute,ICleanup
     PlayerView _view;
 
     public PlayerView View { get => _view;}
+    public ChalkController ChalkController { get => _chalkController; }
 
     public PlayerController(PlayerData data)
     {
@@ -25,12 +26,12 @@ public class PlayerController :IExecute,ICleanup
     public void Execute()
     {
         _movementController.Execute();
-        _chalkController.Execute();
+        ChalkController.Execute();
     }
     public void ActivateUI()
     {
         _canvas.gameObject.SetActive(true);
-        _chalkController.ActivateUI();
+        ChalkController.ActivateUI();
     }
 
     public void Cleanup()

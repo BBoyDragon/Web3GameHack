@@ -15,10 +15,12 @@ namespace MazeUtils.Spawn
 
         public MazeController(MazeData data)
         {
+          
             _mazeGenerator = new Generators.KruskalsGenerator();
             _mazeData = data;
+            //GameObject.Instantiate(_mazeData.Light);
             _mazeView = GameObject.Instantiate<MazeView>(data.View);
-
+      
             Generate();
         }
 
