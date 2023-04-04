@@ -14,14 +14,14 @@ namespace Code.Menu
             _view.Init();
             
             
-            UnityWebRequest request = UnityWebRequestTexture.GetTexture("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLFgrx_H5K9hkWU-sZLKFosqfKwLVKbBwbnnTZmbA9Lnau5XuUdutBrDcq4UxJVwGTcF0&usqp=CAU");
-            request.SendWebRequest();
-            while (!request.isDone) { }
-        
-            if(request.isNetworkError || request.isHttpError) 
-                Debug.Log(request.error);
-            else
-                _view.Image.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
+            // UnityWebRequest request = UnityWebRequestTexture.GetTexture("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLFgrx_H5K9hkWU-sZLKFosqfKwLVKbBwbnnTZmbA9Lnau5XuUdutBrDcq4UxJVwGTcF0&usqp=CAU");
+            // request.SendWebRequest();
+            // while (!request.isDone) { }
+            //
+            // if(request.isNetworkError || request.isHttpError) 
+            //     Debug.Log(request.error);
+            // else
+            //     _view.Image.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
             
             
             // _view.Image = ???
