@@ -13,11 +13,14 @@ public class UserNameView : MonoBehaviour
         _data = data;
         _canvas = canvas;
     } 
-    public void SetUserName(string userName) // this method is called form JS and userName string puts here
-    {
+    public void SetUsetJWT(string jwtBody)
+    {  
+        JWT.UserJWT jwt = JWT.JWTParser.Parse(jwtBody);
         var text = GameObject.Instantiate(_data.Text, _canvas.transform.position, _canvas.transform.rotation, _canvas.transform);
-        text.GetComponent<TextMeshProUGUI>().text = userName + "\nThis account have no assets";
-        var vec = new Vector3(_canvas.transform.position.x/2.0f, _canvas.transform.position.y*3/2.0f, _canvas.transform.position.z);
+        text.GetComponent<TextMeshProUGUI>().text = jwt.username;
+        Debug.Log(jwt.username);
+        var vec = new Vector3(_canvas.transform.position.x, _canvas.transform.position.y, _canvas.transform.position.z);
         text.transform.position = vec;
+        _canvas.gameObject.SetActive(true);
     }
 }

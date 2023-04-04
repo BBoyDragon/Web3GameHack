@@ -9,6 +9,9 @@ public class UiData : ScriptableObject
 {
     [SerializeField]
     private GameObject _menuView;
+    [SerializeField]
+    private GameObject _shopItem;
 
-    public UIBehaviour MenuView { get => _menuView.GetComponent<UIBehaviour>();}
+    public UIBehaviour MenuView => _menuView.GetComponent<UIBehaviour>();
+    public ItemShopView ShopItem => _shopItem.GetComponent<ItemShopView>();
 }

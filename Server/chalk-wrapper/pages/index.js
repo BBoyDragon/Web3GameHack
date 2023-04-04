@@ -2,7 +2,6 @@ import styles from "../styles/Home.module.css";
 import React from "react";
 import { useRouter } from 'next/router';
 import { Unity, useUnityContext } from "react-unity-webgl";
-import jwt_decode from "jwt-decode";
 
 export default function Home() {
   let sent = false;
@@ -26,7 +25,7 @@ export default function Home() {
       return;
     }
     sent = true;
-    sendMessage("UserNameView(Clone)", "SetUserName", jwt_decode(router.query["token"]).username);
+    sendMessage("UserNameView(Clone)", "SetUserJWT", jwt_decode(router.query["token"]).username);
   };
 
   return (
