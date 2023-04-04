@@ -21,4 +21,8 @@ public class MazeData : ScriptableObject
     private int _mazeSize;
     public int MazeSize { get => _mazeSize;}
 
+    [SerializeField]
+    private GameObject _light;
+    public GameObject Light { get => _light; set => _light = value; }
+
 }

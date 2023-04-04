@@ -16,3 +16,4 @@ MonoBehaviour:
   _view: {fileID: 782500490525884254, guid: e268decca5d24364d908d1180fede966, type: 3}
   _cellSize: 3
   _mazeSize: 20
+  _light: {fileID: 552253498920945337, guid: e3c78697832f209478f2d6d07720ebef, type: 3}

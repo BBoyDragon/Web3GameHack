@@ -28,4 +28,8 @@ public class MetaData : ScriptableObject
     [SerializeField]
     private TreasureData _treasureData;
     public TreasureData TreasureData { get => _treasureData; }
+
+    [SerializeField]
+    private BonusData _bonusData;
+    public BonusData BonusData { get => _bonusData;}
 }

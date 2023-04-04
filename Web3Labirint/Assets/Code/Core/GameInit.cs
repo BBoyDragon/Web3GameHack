@@ -13,7 +13,7 @@ internal sealed class GameInit : IDisposable
     private MazeController _mazeController;
     private CameraController _cameraController;
     private TreasureController _treasureController;
-
+    private BonusController _bonusController;
     private UserNameController _userNameController;
     public GameInit(ControllerManager behaviourController, GameController mainController)
     {
@@ -29,7 +29,8 @@ internal sealed class GameInit : IDisposable
         behaviourController.Add(_cameraController);
         _treasureController = new TreasureController(_data.TreasureData);
         behaviourController.Add(_treasureController);
-
+        _bonusController = new BonusController(_data.BonusData);
+        _bonusController.OnBunusApyed += _playerController.ChalkController.Refresh;
         _userNameController = new UserNameController(_data.UserNameData);
 
     }
@@ -39,5 +40,6 @@ internal sealed class GameInit : IDisposable
     public void Dispose()
     {
         _menuController.OnStartGame -= _playerController.ActivateUI;
+        _bonusController.OnBunusApyed += _playerController.ChalkController.Refresh;
     }
 }
