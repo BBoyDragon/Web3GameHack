@@ -13,9 +13,12 @@ public class ChalkController :IExecute
     private float _curentAmountOfChalk;
 
     private float _onePercentofChalk;
+
+    public PlayerView PlayerView { get => _playerView; set => _playerView = value; }
+
     public ChalkController(PlayerView view,ChalkData data)
     {
-        _playerView = view;
+        PlayerView = view;
         _data = data;
         _view = GameObject.Instantiate<ChalkView>(_data.View1);
         _onePercentofChalk = _data.MaxAmountOfChalk / 100;
@@ -26,9 +29,9 @@ public class ChalkController :IExecute
     {
 
         RaycastHit hit;
-        if (Vector3.Distance(_playerView.transform.position, lastDistance) >= 0.5)
+        if (Vector3.Distance(PlayerView.transform.position, lastDistance) >= 0.5)
         {
-            if (Physics.Raycast(_playerView.transform.position, Vector3.down, out hit))
+            if (Physics.Raycast(PlayerView.transform.position, Vector3.down, out hit))
             {
                 var go = GameObject.Instantiate(_data.Brush, hit.point + Vector3.up * 0.1f, Quaternion.identity);
                 lastDistance = go.transform.position;

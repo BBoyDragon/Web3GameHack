@@ -9,12 +9,15 @@ namespace Code.Menu
     {
         private const string ON_SALE = "ON_SALE";
         private readonly ItemShopView _view;
-        private NFT.Asset asset;
+        private NFT.Asset _asset;
         private UiData _data;
-        public ItemShopController(ItemShopView view, NFT.Asset asset, UiData data)
+        private PlayerController _playerController;
+
+        public ItemShopController(ItemShopView view, NFT.Asset asset, UiData data, PlayerController playerController)
         {
+            _playerController = playerController;
             _data = data;
-            this.asset = asset;
+            _asset = asset;
             _view = view;
             _view.Init();
             
@@ -33,23 +36,52 @@ namespace Code.Menu
             {
                 _view.BuyButton.interactable = false;
             }
+            
+            //if (asset.market.isOwner)
+            //{
+                _view.OnEquipButtonClick += Equip;
+            //}
+            //else
+            //{
+            //    _view.EquipButton.interactable = false;
+            //}
         }
     
         public void CleanUp()
         {
             _view.CleanUp();
             _view.OnBuyButtonClick -= Purchase;
+            _view.OnEquipButtonClick -= Equip;
+        }
+        
+        public void Destroy()
+        {
+            CleanUp();
+            if (_view != null)
+            {
+                GameObject.Destroy(_view.gameObject);
+            }
         }
     
         private string ourWallet = "EQBwJbd6smxdoSeGQPqCyVbnqglAaHqgK3xST1HpVzfBYfgS";
         public void Purchase()
         {
-            string userWallet = ourWallet;
             Debug.Log("Purchase");
-            var confirmation = NFT.AssetsRequester.BuyAsset(asset.address, 1, userWallet, asset.market.seller.address);
+            string userWallet = ourWallet;
+            var confirmation = NFT.AssetsRequester.BuyAsset(_asset.address, 1, userWallet, _asset.market.seller.address);
             string url = confirmation.url;
             var popUpView = Object.Instantiate(_data.PopUp);
             var popUpController = new PopUpController(popUpView, url);
+        }
+        
+        public void Equip()
+        {
+            Debug.Log("Equip");
+            var attributes = _asset.properties.GetAttributes();
+            var bundleUrl = attributes[0].value;
+            var assetName = attributes[1].value;
+            var bundle = NFT.BundleWebLoader.LoadBundle(bundleUrl);
+            _playerController.ResetView(GameObject.Instantiate<PlayerView>((bundle.LoadAsset(assetName) as GameObject).GetComponent<PlayerView>()));
         }
     }
 }

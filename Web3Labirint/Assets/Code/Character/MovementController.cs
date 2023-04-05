@@ -12,21 +12,24 @@ public class MovementController :IExecute
     Canvas _canvas;
     Vector3 _direction;
     Vector2 _rotation;
+
+
     public MovementController(PlayerView view,float speed,Joystick joystick,Canvas canvas)
     {
         _speed = speed;
-        _view = view;
+        View = view;
         _canvas = canvas;
         _camera = Camera.main;
         _joystick = GameObject.Instantiate<Joystick>(joystick,_canvas.transform);
     }
 
+    public PlayerView View { get => _view; set => _view = value; }
+
     public void Execute()
     {
-
-        _view.Rigidbody.velocity = new Vector3(
+        View.Rigidbody.velocity = new Vector3(
                 _joystick.Direction.x * _speed,
-                _view.Rigidbody.velocity.y,
+                View.Rigidbody.velocity.y,
                 _joystick.Direction.y * _speed);
             Rotate(_joystick.Direction);
 
@@ -51,8 +54,8 @@ public class MovementController :IExecute
 
 
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.y));
-        Vector3 r = Quaternion.Lerp(_view.transform.rotation, lookRotation, _rotationSpeed * Time.deltaTime).eulerAngles;
-        _view.transform.rotation = Quaternion.Euler(0f, r.y, 0f);
+        Vector3 r = Quaternion.Lerp(View.transform.rotation, lookRotation, _rotationSpeed * Time.deltaTime).eulerAngles;
+        View.transform.rotation = Quaternion.Euler(0f, r.y, 0f);
 
         //_view.transform.rotation =Quaternion.Euler(0f,Quaternion.LookRotation( _view.transform.position +  new Vector3(dir.normalized.x, 0f, dir.normalized.y)).eulerAngles.y,0f);
     }
