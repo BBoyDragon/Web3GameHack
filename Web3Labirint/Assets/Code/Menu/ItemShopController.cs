@@ -21,12 +21,7 @@ namespace Code.Menu
             _view = view;
             _view.Init();
             
-            using (WWW www = new WWW(asset.image))
-            {
-                while (!www.isDone) { }
-                Debug.Log("Done!");
-                _view.Image.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
-            }
+            _view.LoadImage(asset.image);
 
             if (asset.market.status == ON_SALE)
             {

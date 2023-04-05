@@ -65,14 +65,13 @@ namespace Code.Menu
             itemContainerTransform.sizeDelta = new Vector2(0, assets.Length * shopItemHeight + 100);
             _shopItems = new ItemShopController[assets.Length];
             float startCoord = - shopItemHeight * (assets.Length - 0.5f) - 50;
+            _view.ShopMenu.SetActive(true);
             for (int i = 0; i < assets.Length; i++)
             {
                 var view = Object.Instantiate(_data.ShopItem, _view.ShopItemsContainer.transform);
                 view.GetComponent<RectTransform>().localPosition = new Vector3(itemContainerTransform.rect.width / 2, startCoord + shopItemHeight * i, 0);
                 _shopItems[i] = new ItemShopController(view, assets[i], _data, _playerController);
-            }
-            
-            _view.ShopMenu.SetActive(true);
+            }   
         }
 
         private void OnExit()

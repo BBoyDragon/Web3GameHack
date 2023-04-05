@@ -45,7 +45,7 @@ namespace Code.Menu
             StartCoroutine(SetNewViewFromBundle(bundleUrl, assetName, playerController));
         }
 
-        public IEnumerator SetNewViewFromBundle(string bundleUrl, string assetName, PlayerController playerController)
+        private IEnumerator SetNewViewFromBundle(string bundleUrl, string assetName, PlayerController playerController)
         {
             UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(bundleUrl);
             yield return www.SendWebRequest();
@@ -59,6 +59,25 @@ namespace Code.Menu
                 playerController.ResetView(Instantiate(
                     (DownloadHandlerAssetBundle.GetContent(www).LoadAsset(assetName) 
                     as GameObject).GetComponent<PlayerView>()));
+            }
+        }
+
+        public void LoadImage(string imageUrl)
+        {
+            StartCoroutine(SetImage(imageUrl));
+        }
+
+        IEnumerator SetImage(string imageUrl)
+        {
+            UnityWebRequest www = UnityWebRequestTexture.GetTexture(imageUrl);
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success) {
+                Debug.Log(www.error);
+            }
+            else {
+                Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0));
             }
         }
     }
