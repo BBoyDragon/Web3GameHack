@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class ChalkController :IExecute
     private ChalkData _data;
     private ChalkView _view;
     Vector3 lastDistance;
+
+    public event Action OnDie;
 
     private float _curentAmountOfChalk;
 
@@ -39,7 +42,7 @@ public class ChalkController :IExecute
 
         if (_curentAmountOfChalk <= 0)
         {
-            SceneManager.LoadScene(0);
+            OnDie.Invoke();
         }
     }
 
@@ -50,5 +53,9 @@ public class ChalkController :IExecute
     public void ActivateUI()
     {
         _view.gameObject.SetActive(true);
+    }
+    public void DeactivateUI()
+    {
+        _view.gameObject.SetActive(false);
     }
 }

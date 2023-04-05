@@ -32,4 +32,8 @@ public class MetaData : ScriptableObject
     [SerializeField]
     private BonusData _bonusData;
     public BonusData BonusData { get => _bonusData;}
+
+    [SerializeField]
+    private FinishData _finishData;
+    public FinishData FinishData { get => _finishData;}
 }

@@ -19,3 +19,4 @@ MonoBehaviour:
   _userNameData: {fileID: 11400000, guid: e35d221fed513cb498d40bdec61ba073, type: 2}
   _treasureData: {fileID: 11400000, guid: 6b784b5dd998eef46975193bf89fca97, type: 2}
   _bonusData: {fileID: 11400000, guid: 0a403e26087e1444aa2c7b35fbc425e7, type: 2}
+  _finishData: {fileID: 11400000, guid: 30d57bac484cd614f8d29695a0391632, type: 2}
