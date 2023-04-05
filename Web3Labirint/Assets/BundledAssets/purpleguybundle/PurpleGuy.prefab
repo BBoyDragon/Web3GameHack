@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 629496404125948321}
   - component: {fileID: 2095774393078012295}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: PurpleGuy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,7 +162,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bece5e09735c0f748bac6432be7f7716, type: 2}
+  - {fileID: 2100000, guid: dbfccdac76885c1428fe74aae745d05d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

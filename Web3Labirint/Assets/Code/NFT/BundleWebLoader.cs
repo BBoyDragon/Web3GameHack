@@ -8,7 +8,7 @@ namespace NFT
 {
     public class BundleWebLoader
     {   
-        AssetBundle LoadBundle(string bundleUrl)
+        public static AssetBundle LoadBundle(string bundleUrl)
         {
             using (WWW web = new WWW(bundleUrl))
             {

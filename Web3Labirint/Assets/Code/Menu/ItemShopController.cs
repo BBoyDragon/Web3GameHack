@@ -1,42 +1,87 @@
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Code.Menu
 {
-
     public class ItemShopController 
     {
+        private const string ON_SALE = "ON_SALE";
         private readonly ItemShopView _view;
-        
-        public ItemShopController(ItemShopView view /* here are all params that will be needed in purchase AND IMAGE */)
+        private NFT.Asset _asset;
+        private UiData _data;
+        private PlayerController _playerController;
+
+        public ItemShopController(ItemShopView view, NFT.Asset asset, UiData data, PlayerController playerController)
         {
+            _playerController = playerController;
+            _data = data;
+            _asset = asset;
             _view = view;
             _view.Init();
             
+            using (WWW www = new WWW(asset.image))
+            {
+                while (!www.isDone) { }
+                Debug.Log("Done!");
+                _view.Image.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
+            }
+
+            if (asset.market.status == ON_SALE)
+            {
+                _view.OnBuyButtonClick += Purchase;
+            }
+            else
+            {
+                _view.BuyButton.interactable = false;
+            }
             
-            // UnityWebRequest request = UnityWebRequestTexture.GetTexture("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLFgrx_H5K9hkWU-sZLKFosqfKwLVKbBwbnnTZmbA9Lnau5XuUdutBrDcq4UxJVwGTcF0&usqp=CAU");
-            // request.SendWebRequest();
-            // while (!request.isDone) { }
-            //
-            // if(request.isNetworkError || request.isHttpError) 
-            //     Debug.Log(request.error);
-            // else
-            //     _view.Image.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
-            
-            
-            // _view.Image = ???
-            _view.OnBuyButtonClick += Purchase;
+            //if (asset.market.isOwner)
+            //{
+                _view.OnEquipButtonClick += Equip;
+            //}
+            //else
+            //{
+            //    _view.EquipButton.interactable = false;
+            //}
         }
     
         public void CleanUp()
         {
             _view.CleanUp();
             _view.OnBuyButtonClick -= Purchase;
+            _view.OnEquipButtonClick -= Equip;
+        }
+        
+        public void Destroy()
+        {
+            CleanUp();
+            if (_view != null)
+            {
+                GameObject.Destroy(_view.gameObject);
+            }
         }
     
+        private string ourWallet = "EQBwJbd6smxdoSeGQPqCyVbnqglAaHqgK3xST1HpVzfBYfgS";
         public void Purchase()
         {
             Debug.Log("Purchase");
+            string userWallet = ourWallet;
+            var confirmation = NFT.AssetsRequester.BuyAsset(_asset.address, 1, userWallet, _asset.market.seller.address);
+            string url = confirmation.url;
+            var popUpView = Object.Instantiate(_data.PopUp);
+            var popUpController = new PopUpController(popUpView, url);
+        }
+        
+        public void Equip()
+        {
+            Debug.Log("Equip");
+            var attributes = _asset.properties.GetAttributes();
+            var bundleUrl = attributes[0].value;
+            var assetName = attributes[1].value;
+            var bundle = NFT.BundleWebLoader.LoadBundle(bundleUrl);
+            _playerController.ResetView(GameObject.Instantiate<PlayerView>((bundle.LoadAsset(assetName) as GameObject).GetComponent<PlayerView>()));
         }
     }
 }
