@@ -12,21 +12,18 @@ namespace Code.Menu
         private NFT.Asset _asset;
         private UiData _data;
         private PlayerController _playerController;
+        private MenuController _menuController;
 
-        public ItemShopController(ItemShopView view, NFT.Asset asset, UiData data, PlayerController playerController)
+        public ItemShopController(MenuController menuController, ItemShopView view, NFT.Asset asset, UiData data, PlayerController playerController)
         {
-            _playerController = playerController;
-            _data = data;
-            _asset = asset;
             _view = view;
+            _asset = asset;
+            _data = data;
+            _playerController = playerController;
+            _menuController = menuController;
             _view.Init();
             
-            using (WWW www = new WWW(asset.image))
-            {
-                while (!www.isDone) { }
-                Debug.Log("Done!");
-                _view.Image.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
-            }
+            _view.LoadImage(asset.image);
 
             if (asset.market.status == ON_SALE)
             {
@@ -68,10 +65,7 @@ namespace Code.Menu
         {
             Debug.Log("Purchase");
             string userWallet = ourWallet;
-            var confirmation = NFT.AssetsRequester.BuyAsset(_asset.address, 1, userWallet, _asset.market.seller.address);
-            string url = confirmation.url;
-            var popUpView = Object.Instantiate(_data.PopUp);
-            var popUpController = new PopUpController(popUpView, url);
+            _menuController.BuyAsset(_asset.address, 1, userWallet, _asset.market.seller.address);
         }
         
         public void Equip()
@@ -80,8 +74,7 @@ namespace Code.Menu
             var attributes = _asset.properties.GetAttributes();
             var bundleUrl = attributes[0].value;
             var assetName = attributes[1].value;
-            var bundle = NFT.BundleWebLoader.LoadBundle(bundleUrl);
-            _playerController.ResetView(GameObject.Instantiate<PlayerView>((bundle.LoadAsset(assetName) as GameObject).GetComponent<PlayerView>()));
+            _view.LoadAssetFromBundle(bundleUrl, assetName, _playerController);
         }
     }
 }
