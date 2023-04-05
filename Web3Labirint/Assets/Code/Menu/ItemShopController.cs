@@ -12,13 +12,15 @@ namespace Code.Menu
         private NFT.Asset _asset;
         private UiData _data;
         private PlayerController _playerController;
+        private MenuController _menuController;
 
-        public ItemShopController(ItemShopView view, NFT.Asset asset, UiData data, PlayerController playerController)
+        public ItemShopController(MenuController menuController, ItemShopView view, NFT.Asset asset, UiData data, PlayerController playerController)
         {
-            _playerController = playerController;
-            _data = data;
-            _asset = asset;
             _view = view;
+            _asset = asset;
+            _data = data;
+            _playerController = playerController;
+            _menuController = menuController;
             _view.Init();
             
             _view.LoadImage(asset.image);
@@ -63,10 +65,7 @@ namespace Code.Menu
         {
             Debug.Log("Purchase");
             string userWallet = ourWallet;
-            var confirmation = NFT.AssetsRequester.BuyAsset(_asset.address, 1, userWallet, _asset.market.seller.address);
-            string url = confirmation.url;
-            var popUpView = Object.Instantiate(_data.PopUp);
-            var popUpController = new PopUpController(popUpView, url);
+            _menuController.BuyAsset(_asset.address, 1, userWallet, _asset.market.seller.address);
         }
         
         public void Equip()
