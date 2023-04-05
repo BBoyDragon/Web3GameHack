@@ -1,3 +1,5 @@
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -7,9 +9,11 @@ namespace Code.Menu
     {
         private const string ON_SALE = "ON_SALE";
         private readonly ItemShopView _view;
-        private readonly NFT.Asset asset;
-        public ItemShopController(ItemShopView view, NFT.Asset asset)
+        private NFT.Asset asset;
+        private UiData _data;
+        public ItemShopController(ItemShopView view, NFT.Asset asset, UiData data)
         {
+            _data = data;
             this.asset = asset;
             _view = view;
             _view.Init();
@@ -44,7 +48,8 @@ namespace Code.Menu
             Debug.Log("Purchase");
             var confirmation = NFT.AssetsRequester.BuyAsset(asset.address, 1, userWallet, asset.market.seller.address);
             string url = confirmation.url;
-            Debug.Log(url); // This is confurmation url to get to user
+            var popUpView = Object.Instantiate(_data.PopUp);
+            var popUpController = new PopUpController(popUpView, url);
         }
     }
 }
