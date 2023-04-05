@@ -18,6 +18,7 @@ public class UserNameController:IExecute
         _data = data;
         _playerView = playerView;
         _view = GameObject.Instantiate<UserNameView>(_data.View);
+        _view.Text.text = PlayerPrefs.GetString("JwtUserName");
     }
 
     public void Execute()

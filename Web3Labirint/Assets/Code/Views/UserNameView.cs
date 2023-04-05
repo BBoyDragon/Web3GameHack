@@ -8,9 +8,14 @@ public class UserNameView : MonoBehaviour
     
     [SerializeField]
     private TMP_Text _text;
+
+    public TMP_Text Text { get => _text;}
+
     public void SetUsetJWT(string jwtBody)
     {  
+
         JWT.UserJWT jwt = JWT.JWTParser.Parse(jwtBody);
-        _text.text = jwt.username;
+        Text.text = jwt.username;
+        PlayerPrefs.SetString("JwtUserName", jwt.username);
     }
 }
