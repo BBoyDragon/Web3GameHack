@@ -80,8 +80,7 @@ namespace Code.Menu
             var attributes = _asset.properties.GetAttributes();
             var bundleUrl = attributes[0].value;
             var assetName = attributes[1].value;
-            var bundle = NFT.BundleWebLoader.LoadBundle(bundleUrl);
-            _playerController.ResetView(GameObject.Instantiate<PlayerView>((bundle.LoadAsset(assetName) as GameObject).GetComponent<PlayerView>()));
+            _view.LoadAssetFromBundle(bundleUrl, assetName, _playerController);
         }
     }
 }

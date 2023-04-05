@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace Code.Menu
@@ -36,6 +38,28 @@ namespace Code.Menu
         private void OnEquip()
         {
             OnEquipButtonClick?.Invoke();
+        }
+
+        public void LoadAssetFromBundle(string bundleUrl, string assetName, PlayerController playerController)
+        {
+            StartCoroutine(SetNewViewFromBundle(bundleUrl, assetName, playerController));
+        }
+
+        public IEnumerator SetNewViewFromBundle(string bundleUrl, string assetName, PlayerController playerController)
+        {
+            UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(bundleUrl);
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                playerController.ResetView(Instantiate(
+                    (DownloadHandlerAssetBundle.GetContent(www).LoadAsset(assetName) 
+                    as GameObject).GetComponent<PlayerView>()));
+            }
         }
     }
 }
