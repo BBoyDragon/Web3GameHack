@@ -11,9 +11,10 @@ public class UserNameController:IExecute
     UserNameData _data;
     UserNameView _view;
     PlayerView _playerView;
-    public UserNameView View { get => _view;}
+    public UserNameView View { get => _view; }
+    public PlayerView PlayerView { get => _playerView; set => _playerView = value; }
 
-    public UserNameController(UserNameData data,PlayerView playerView)
+    public UserNameController(UserNameData data, PlayerView playerView)
     {
         _data = data;
         _playerView = playerView;
@@ -23,6 +24,6 @@ public class UserNameController:IExecute
 
     public void Execute()
     {
-        _view.transform.position = new Vector3(_playerView.transform.position.x, _view.transform.position.y, _playerView.transform.position.z);
+        _view.transform.position = new Vector3(PlayerView.transform.position.x, _view.transform.position.y, PlayerView.transform.position.z);
     }
 }

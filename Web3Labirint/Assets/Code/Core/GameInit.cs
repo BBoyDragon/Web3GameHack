@@ -20,7 +20,8 @@ internal sealed class GameInit : IDisposable
     {
         _data = Resources.Load<MetaData>("MetaData");
         _cameraController = new CameraController(_data.CameraData);
-        _playerController = new PlayerController(_data.PlayerData, _cameraController);
+        _userNameController = new UserNameController(_data.UserNameData, _data.PlayerData.View);
+        _playerController = new PlayerController(_data.PlayerData, _cameraController, _userNameController);
         behaviourController.Add(_playerController);
         _mazeController = new MazeController(_data.MazeData);
         _menuController = new MenuController(_data.UiData, _playerController);
@@ -29,11 +30,10 @@ internal sealed class GameInit : IDisposable
         behaviourController.Add(_cameraController);
         _treasureController = new TreasureController(_data.TreasureData);
         behaviourController.Add(_treasureController);
-        _userNameController = new UserNameController(_data.UserNameData);
         _bonusController = new BonusController(_data.BonusData);
         _bonusController.OnBunusApyed += _playerController.ChalkController.Refresh;
 
-        _userNameController = new UserNameController(_data.UserNameData,_playerController.View);
+        _userNameController.PlayerView = _playerController.View;
         behaviourController.Add(_userNameController);
 
         _finishController = new FinishCintroller(_data.FinishData);
