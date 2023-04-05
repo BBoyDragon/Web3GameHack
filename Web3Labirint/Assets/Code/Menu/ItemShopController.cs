@@ -5,8 +5,9 @@ namespace Code.Menu
 {
     public class ItemShopController 
     {
+        private const string ON_SALE = "ON_SALE";
         private readonly ItemShopView _view;
-        private NFT.Asset asset;
+        private readonly NFT.Asset asset;
         public ItemShopController(ItemShopView view, NFT.Asset asset)
         {
             this.asset = asset;
@@ -20,7 +21,14 @@ namespace Code.Menu
                 _view.Image.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
             }
 
-            _view.OnBuyButtonClick += Purchase;
+            if (asset.market.status == ON_SALE)
+            {
+                _view.OnBuyButtonClick += Purchase;
+            }
+            else
+            {
+                _view.BuyButton.interactable = false;
+            }
         }
     
         public void CleanUp()

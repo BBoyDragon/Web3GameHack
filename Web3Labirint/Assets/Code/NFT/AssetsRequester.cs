@@ -114,6 +114,7 @@ namespace NFT
         [Serializable]
         public class Market
         {
+            public string status;
             public bool isOwner;
             public long price;
             public Seller seller;

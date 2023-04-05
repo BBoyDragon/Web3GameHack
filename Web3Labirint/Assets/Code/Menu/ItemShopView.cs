@@ -10,7 +10,9 @@ namespace Code.Menu
         [SerializeField] private Image image;
 
         public Image Image => image;
-        
+
+        public Button BuyButton => buyButton;
+
         public event Action OnBuyButtonClick;
         
         public void Init()
