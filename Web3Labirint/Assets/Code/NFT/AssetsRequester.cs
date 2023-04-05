@@ -59,15 +59,15 @@ namespace NFT
         // curl -X POST https://external.api.tonplay.io/x/market/v1/sale -H 'X-Auth-Tonplay: jrN8UPnrck:0L3l7yt4odamcsX2XNvP' -H 'Content-Type: application/json' --data '{ "address": "EQDQ0P9W58y8qRVGxMUsi1mN8aL85G6jTIB5aAaTXhCgZice", "amount": 1, "type": "SFT", "buyerAddress": "EQBwJbd6smxdoSeGQPqCyVbnqglAaHqgK3xST1HpVzfBYfgS", "sellerAddress": "EQBwJbd6smxdoSeGQPqCyVbnqglAaHqgK3xST1HpVzfBYfgS" }'
 
         private static readonly string assetSaleUrl = "https://external.api.tonplay.io/x/market/v1/sale";
-        public static string BuyAsset(string assetAddress, long amount, string buyerAddress, string sellerAddress)
+        public static Confirmation BuyAsset(string assetAddress, long amount, string buyerAddress, string sellerAddress)
         {
             string responseStr = requseter.Post(assetSaleUrl, JsonUtility.ToJson(new BuyRequest(assetAddress, amount, "SFT", buyerAddress, sellerAddress)));
-            return JsonUtility.FromJson<Confirmation>(responseStr).url;
+            return JsonUtility.FromJson<Confirmation>(responseStr);
         }
     }
 
     [Serializable]
-    class Confirmation
+    public class Confirmation
     {
         public string address;
         public string url;
@@ -116,10 +116,19 @@ namespace NFT
         {
             public bool isOwner;
             public long price;
+            public Seller seller;
             public override string ToString()
             {
                 return JsonUtility.ToJson(this);
             }
+        }
+        
+        [Serializable]
+        public class Seller
+        {
+            public string identifier;
+            public string username;
+            public string address;
         }
 
         [Serializable]

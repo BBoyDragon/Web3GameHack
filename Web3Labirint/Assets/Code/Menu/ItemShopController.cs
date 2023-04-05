@@ -3,17 +3,17 @@ using UnityEngine.Networking;
 
 namespace Code.Menu
 {
-
     public class ItemShopController 
     {
         private readonly ItemShopView _view;
-        
-        public ItemShopController(ItemShopView view, string url)
+        private NFT.Asset asset;
+        public ItemShopController(ItemShopView view, NFT.Asset asset)
         {
+            this.asset = asset;
             _view = view;
             _view.Init();
             
-            using (WWW www = new WWW(url))
+            using (WWW www = new WWW(asset.image))
             {
                 while (!www.isDone) { }
                 Debug.Log("Done!");
@@ -29,9 +29,14 @@ namespace Code.Menu
             _view.OnBuyButtonClick -= Purchase;
         }
     
+        private string ourWallet = "EQBwJbd6smxdoSeGQPqCyVbnqglAaHqgK3xST1HpVzfBYfgS";
         public void Purchase()
         {
+            string userWallet = ourWallet;
             Debug.Log("Purchase");
+            var confirmation = NFT.AssetsRequester.BuyAsset(asset.address, 1, userWallet, asset.market.seller.address);
+            string url = confirmation.url;
+            Debug.Log(url); // This is confurmation url to get to user
         }
     }
 }

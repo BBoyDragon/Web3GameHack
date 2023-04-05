@@ -65,7 +65,7 @@ namespace Code.Menu
             {
                 var view = Object.Instantiate(_data.ShopItem, _view.ShopItemsContainer.transform);
                 view.GetComponent<RectTransform>().localPosition = new Vector3(itemContainerTransform.rect.width / 2, startCoord + shopItemHeight * i, 0);
-                _shopItems[i] = new ItemShopController(view, assets[i].image);
+                _shopItems[i] = new ItemShopController(view, assets[i]);
             }
             
             _view.ShopMenu.SetActive(true);
