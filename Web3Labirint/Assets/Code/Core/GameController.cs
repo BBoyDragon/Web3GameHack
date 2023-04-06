@@ -1,4 +1,4 @@
-
+using MongoDB.Driver;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -17,6 +17,13 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        MongoClient dbClient = new MongoClient(new MongoUrl("mongodb://Unity:abacaba@195.135.253.115:27017/ChalkMaze"));
+        var dbList = dbClient.ListDatabases().ToList();
+        Debug.Log("The list of databases on this server is: ");
+        foreach (var db in dbList)
+        {
+            Debug.Log(db);
+        }
         _behaviourController.Init();
     }
 
