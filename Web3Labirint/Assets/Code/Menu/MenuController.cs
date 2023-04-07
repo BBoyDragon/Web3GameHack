@@ -1,3 +1,4 @@
+using Code.Leaderboard;
 using NFT;
 using System;
 using System.Collections;
@@ -14,6 +15,7 @@ namespace Code.Menu
         private readonly UiData _data;
         private readonly UIBehaviour _view;
         private ItemShopController[] _shopItems;
+        private ItemLeaderboardController[] _leaderboardItems;
         private PlayerController _playerController;
 
         public event Action OnStartGame;
@@ -26,6 +28,7 @@ namespace Code.Menu
             _view.OnStartButtonClick += IncreaseSize;
             _view.OnStartButtonClick += IncreaseTransparency;
             _view.OnShopButtonClick += OpenShop;
+            _view.OnLeaderboardButtonClick += OpenLeaderboard;
             _view.OnExitButtonClick += OnExit;
             _view.OnGameStarted += StartGame;
         }
@@ -36,6 +39,7 @@ namespace Code.Menu
             _view.OnStartButtonClick -= IncreaseSize;
             _view.OnStartButtonClick -= IncreaseTransparency;
             _view.OnShopButtonClick -= OpenShop;
+            _view.OnLeaderboardButtonClick -= OpenLeaderboard;
             _view.OnExitButtonClick -= OnExit;
             _view.OnGameStarted -= StartGame;
 
@@ -57,6 +61,11 @@ namespace Code.Menu
         {
             _view.Animator.SetTrigger(Transparency);
         }
+
+        private void OpenLeaderboard()
+        {
+            _view.StartCoroutine(LoadLeaderboard());
+        }
         
         private void OpenShop()
         {
@@ -67,6 +76,23 @@ namespace Code.Menu
         private static void SetAuthHeader(UnityWebRequest www)
         {
             www.SetRequestHeader("X-Auth-Tonplay", authToken);
+        }
+        
+        public IEnumerator LoadLeaderboard()
+        {
+            UnityWebRequest www = UnityWebRequest.Get("https://ismaxis.ru/api/leaderboard/scores");
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                var users = JsonUtility.FromJson<User[]>(www.downloadHandler.text);
+                Array.Sort(users);
+                FillLeaderboard(users);
+            }
         }
 
         private static readonly string allGameAssetsUrl = "https://external.api.tonplay.io/x/tondata/v1/assets/game";
@@ -85,7 +111,23 @@ namespace Code.Menu
                 FillShop(JsonUtility.FromJson<Content>(www.downloadHandler.text).content);
             }
         }
-
+        
+        private void FillLeaderboard(User[] users)
+        {
+            var leaderboardItemTransform = _data.LeaderboardItem.gameObject.GetComponent<RectTransform>();
+            var leaderboardItemHeight = leaderboardItemTransform.rect.height;
+            var itemContainerTransform = _view.ShopItemsContainer.GetComponent<RectTransform>();
+            itemContainerTransform.sizeDelta = new Vector2(0, users.Length * leaderboardItemHeight + 100);
+            _leaderboardItems = new ItemLeaderboardController[users.Length];
+            var startCoord = -leaderboardItemHeight * (users.Length - 0.5f) - 50;
+            _view.LeaderboardMenu.SetActive(true);
+            for (var i = 0; i < users.Length; i++)
+            {
+                var view = Object.Instantiate(_data.LeaderboardItem, _view.ShopItemsContainer.transform);
+                view.GetComponent<RectTransform>().localPosition = new Vector3(itemContainerTransform.rect.width / 2, startCoord + leaderboardItemHeight * i, 0);
+                _leaderboardItems[i] = new ItemLeaderboardController(view, (i+1).ToString(), "", "");
+            }
+        }
 
         private void FillShop(Asset[] assets)
         {
