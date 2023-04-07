@@ -1,19 +1,20 @@
-var fs = require('fs');
-const leaderboard = require("../../../../leaderboard.json");
+const fs = require('fs');
 
 export default function handler(req, res) {
   if (req.method === "POST") {
-    updateUser(req);
+    const leaderboard = require("../../../../leaderboard.json");
+    updateUser(leaderboard, req);
     fs.writeFileSync('leaderboard.json', JSON.stringify(leaderboard));
     res.status(201);
   } else if (req.method === "GET") {
+    const leaderboard = require("../../../../leaderboard.json");
     res.status(200).json(leaderboard);
   } else {
     req.status(404);
   }
 }
 
-function updateUser(req) {
+function updateUser(leaderboard, req) {
   for (let user of leaderboard.scores) {
     if (user["sub"] === req.body.sub) {
       user["score"] = req.body.score;
