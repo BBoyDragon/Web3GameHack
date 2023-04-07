@@ -30,6 +30,7 @@ namespace Code.Menu
             _view.OnOpenShopButtonClick += OpenShop;
             _view.OnOpenLeaderboardButtonClick += OpenLeaderboard;
             _view.OnExitShopButtonClick += ExitShop;
+            _view.OnExitLeaderboardButtonClick += ExitLeaderboard;
             _view.OnGameStarted += StartGame;
         }
 
@@ -67,9 +68,20 @@ namespace Code.Menu
             _view.StartCoroutine(LoadLeaderboard());
         }
         
+        private static readonly string addWalletUrl = "https://tonapi.io/login?app=085f941afd4dedddda03cc8708b17c3db6fd9acedf2593117debbc71019a047a353632&callback_url=https://web.api.tonplay.io/auth/v1/tonkeeper?uid=";
         private void OpenShop()
         {
-            _view.StartCoroutine(LoadAllGameAssetsAndFill());
+            if (PlayerPrefs.GetString("Wallet") == "")
+            {
+                var popUpView = Object.Instantiate(_data.PopUp);
+                popUpView.Text = "Please link your Ton wallet";
+                popUpView.ButtonText = "Link";
+                var popUpController = new PopUpController(popUpView, addWalletUrl + PlayerPrefs.GetString("Sub"));
+            }
+            else
+            {
+                _view.StartCoroutine(LoadAllGameAssetsAndFill());
+            }
         }
 
         private static readonly string authToken = "jrN8UPnrck:0L3l7yt4odamcsX2XNvP";
@@ -90,34 +102,50 @@ namespace Code.Menu
             }
             else
             {
-                var users = JsonUtility.FromJson<Users>(www.downloadHandler.text).scores;
-                Array.Sort(users, Comparer<User>.Create((u1, u2) => 
+                var users = JsonUtility.FromJson<Users>(www.downloadHandler.text);
+                var scores = users.scores;
+                Array.Sort(scores, Comparer<User>.Create((u1, u2) => 
                 {
                     return u1.score.CompareTo(u2.score);
                 }));
-                FillLeaderboard(users);
+                FillLeaderboard(scores);
             }
         }
 
-        //private static readonly string allUserAssetsUrl = "https://external.api.tonplay.io/x/tondata/v2/assets/";
-        //private string ourWallet = "EQBwJbd6smxdoSeGQPqCyVbnqglAaHqgK3xST1HpVzfBYfgS";
-        //public IEnumerator LoadAllUserAssetsAndFill()
-        //{
-        //    string walletFromPrefs = PlayerPrefs.GetString("Wallet");
-        //    string userWallet = walletFromPrefs == "" ? ourWallet : walletFromPrefs;
-        //    UnityWebRequest www = UnityWebRequest.Get(allUserAssetsUrl + userWallet) ;
-        //    SetAuthHeader(www);
-        //    yield return www.SendWebRequest();
+        private void FillLeaderboard(User[] users)
+        {
+            var leaderboardItemTransform = _data.LeaderboardItem.gameObject.GetComponent<RectTransform>();
+            var leaderboardItemHeight = leaderboardItemTransform.rect.height;
+            var itemContainerTransform = _view.LeaderboardItemsContainer.GetComponent<RectTransform>();
+            itemContainerTransform.sizeDelta = new Vector2(0, users.Length * leaderboardItemHeight + 100);
+            _leaderboardItems = new ItemLeaderboardController[users.Length];
+            var startCoord = -leaderboardItemHeight * (users.Length - 0.5f) - 50;
+            _view.LeaderboardMenu.SetActive(true);
+            for (var i = 0; i < users.Length; i++)
+            {
+                var view = Object.Instantiate(_data.LeaderboardItem, _view.LeaderboardItemsContainer.transform);
+                view.GetComponent<RectTransform>().localPosition = new Vector3(itemContainerTransform.rect.width / 2, startCoord + leaderboardItemHeight * i, 0);
+                _leaderboardItems[i] = new ItemLeaderboardController(view, (users.Length - i).ToString(), users[i].score.ToString(), users[i].username);
+            }
+        }
 
-        //    if (www.result != UnityWebRequest.Result.Success)
-        //    {
-        //        Debug.Log(www.error);
-        //    }
-        //    else
-        //    {
-        //        FillShop(JsonUtility.FromJson<Content>(www.downloadHandler.text).content);
-        //    }
-        //}
+        private static readonly string allUserAssetsUrl = "https://external.api.tonplay.io/x/tondata/v2/assets/";
+        public IEnumerator LoadAllUserAssetsAndFill()
+        {
+            string userWallet = PlayerPrefs.GetString("Wallet");
+            UnityWebRequest www = UnityWebRequest.Get(allUserAssetsUrl + userWallet);
+            SetAuthHeader(www);
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                FillShop(JsonUtility.FromJson<Content>(www.downloadHandler.text).content);
+            }
+        }
 
         private static readonly string allGameAssetsUrl = "https://external.api.tonplay.io/x/tondata/v1/assets/game";
         public IEnumerator LoadAllGameAssetsAndFill()
@@ -136,22 +164,7 @@ namespace Code.Menu
             }
         }
         
-        private void FillLeaderboard(User[] users)
-        {
-            var leaderboardItemTransform = _data.LeaderboardItem.gameObject.GetComponent<RectTransform>();
-            var leaderboardItemHeight = leaderboardItemTransform.rect.height;
-            var itemContainerTransform = _view.ShopItemsContainer.GetComponent<RectTransform>();
-            itemContainerTransform.sizeDelta = new Vector2(0, users.Length * leaderboardItemHeight + 100);
-            _leaderboardItems = new ItemLeaderboardController[users.Length];
-            var startCoord = -leaderboardItemHeight * (users.Length - 0.5f) - 50;
-            _view.LeaderboardMenu.SetActive(true);
-            for (var i = 0; i < users.Length; i++)
-            {
-                var view = Object.Instantiate(_data.LeaderboardItem, _view.ShopItemsContainer.transform);
-                view.GetComponent<RectTransform>().localPosition = new Vector3(itemContainerTransform.rect.width / 2, startCoord + leaderboardItemHeight * i, 0);
-                _leaderboardItems[i] = new ItemLeaderboardController(view, (i+1).ToString(), "", "");
-            }
-        }
+
 
         private void FillShop(Asset[] assets)
         {
@@ -203,6 +216,17 @@ namespace Code.Menu
                 }
             }
             _view.ShopMenu.SetActive(false);
+        }
+        private void ExitLeaderboard()
+        {
+            if (_leaderboardItems != null) 
+            { 
+                foreach (var leaderboardItem in _leaderboardItems)
+                {
+                    leaderboardItem.Destroy();
+                }
+            }
+            _view.LeaderboardMenu.SetActive(false);
         }
         private void StartGame()
         {

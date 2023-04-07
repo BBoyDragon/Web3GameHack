@@ -327,10 +327,12 @@ MonoBehaviour:
   animator: {fileID: 766911219389829464}
   startButton: {fileID: 766911219265584538}
   shopButton: {fileID: 8899301423946974839}
-  exitButton: {fileID: 4330252351352329767}
+  exitShopButton: {fileID: 4330252351352329767}
+  exitLeaderboardButton: {fileID: 2427833528969242588}
   leaderboardButton: {fileID: 5531700011672214158}
   shopMenu: {fileID: 6881745935482208016}
   shopItemsContainer: {fileID: 5357696304800395467}
+  leaderboardItemsContainer: {fileID: 1940527866877099774}
   leaderboardMenu: {fileID: 2202665369253322818}
 --- !u!1 &766911218905549794
 GameObject:

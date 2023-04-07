@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Code.Menu
 {
     public class ItemLeaderboardController
@@ -10,6 +12,14 @@ namespace Code.Menu
             _view.Place = place;
             _view.Score = score;
             _view.Username = username;
+        }
+
+        public void Destroy()
+        {
+            if (_view != null)
+            {
+                GameObject.Destroy(_view.gameObject);
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5924227668623288428}
-  - component: {fileID: 8477823556874660096}
+  - component: {fileID: 8644840238517089530}
   m_Layer: 5
   m_Name: LeaderboardItem
   m_TagString: Untagged
@@ -41,7 +41,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8477823556874660096
+--- !u!114 &8644840238517089530
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50,12 +50,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3563048300888269750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e63c84d9d6400b0619ce2dd88a950cee, type: 3}
+  m_Script: {fileID: 11500000, guid: b9ac8f3e66854c3ba865ce195577a426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 0}
-  buyButton: {fileID: 0}
-  equipButton: {fileID: 0}
+  username: {fileID: 8223349745336624200}
+  score: {fileID: 825639182070431938}
+  place: {fileID: 794422178601562669}
 --- !u!1 &5439445770184538967
 GameObject:
   m_ObjectHideFlags: 0
