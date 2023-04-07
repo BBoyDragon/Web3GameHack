@@ -78,9 +78,10 @@ namespace Code.Menu
             www.SetRequestHeader("X-Auth-Tonplay", authToken);
         }
         
+        private static readonly string leaderboardUrl = "https://ismaxis.ru/api/leaderboard/scores";
         public IEnumerator LoadLeaderboard()
         {
-            UnityWebRequest www = UnityWebRequest.Get("https://ismaxis.ru/api/leaderboard/scores");
+            UnityWebRequest www = UnityWebRequest.Get(leaderboardUrl);
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
@@ -89,11 +90,34 @@ namespace Code.Menu
             }
             else
             {
-                var users = JsonUtility.FromJson<User[]>(www.downloadHandler.text);
-                Array.Sort(users);
+                var users = JsonUtility.FromJson<Users>(www.downloadHandler.text).scores;
+                Array.Sort(users, Comparer<User>.Create((u1, u2) => 
+                {
+                    return u1.score.CompareTo(u2.score);
+                }));
                 FillLeaderboard(users);
             }
         }
+
+        //private static readonly string allUserAssetsUrl = "https://external.api.tonplay.io/x/tondata/v2/assets/";
+        //private string ourWallet = "EQBwJbd6smxdoSeGQPqCyVbnqglAaHqgK3xST1HpVzfBYfgS";
+        //public IEnumerator LoadAllUserAssetsAndFill()
+        //{
+        //    string walletFromPrefs = PlayerPrefs.GetString("Wallet");
+        //    string userWallet = walletFromPrefs == "" ? ourWallet : walletFromPrefs;
+        //    UnityWebRequest www = UnityWebRequest.Get(allUserAssetsUrl + userWallet) ;
+        //    SetAuthHeader(www);
+        //    yield return www.SendWebRequest();
+
+        //    if (www.result != UnityWebRequest.Result.Success)
+        //    {
+        //        Debug.Log(www.error);
+        //    }
+        //    else
+        //    {
+        //        FillShop(JsonUtility.FromJson<Content>(www.downloadHandler.text).content);
+        //    }
+        //}
 
         private static readonly string allGameAssetsUrl = "https://external.api.tonplay.io/x/tondata/v1/assets/game";
         public IEnumerator LoadAllGameAssetsAndFill()

@@ -17,5 +17,7 @@ public class UserNameView : MonoBehaviour
         JWT.UserJWT jwt = JWT.JWTParser.Parse(jwtBody);
         Text.text = jwt.username;
         PlayerPrefs.SetString("JwtUserName", jwt.username);
+        PlayerPrefs.SetString("Wallet", jwt.wallet);     
+        PlayerPrefs.SetString("Jwt", jwtBody);   
     }
 }

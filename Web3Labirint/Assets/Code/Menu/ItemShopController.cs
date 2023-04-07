@@ -63,8 +63,10 @@ namespace Code.Menu
         private string ourWallet = "EQBwJbd6smxdoSeGQPqCyVbnqglAaHqgK3xST1HpVzfBYfgS";
         public void Purchase()
         {
-            Debug.Log("Purchase");
-            string userWallet = ourWallet;
+            Debug.Log("Purchase");            
+            string walletFromPrefs = PlayerPrefs.GetString("Wallet"); 
+            string userWallet = walletFromPrefs == "" ? ourWallet : walletFromPrefs; 
+            Debug.Log("userWallet: " + userWallet); 
             _menuController.BuyAsset(_asset.address, 1, userWallet, _asset.market.seller.address);
         }
         
