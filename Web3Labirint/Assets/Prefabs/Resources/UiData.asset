@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuView: {fileID: 766911218394062836, guid: 4135ff72e2c320f4ea11475edbe5389b, type: 3}
   _shopItem: {fileID: 9166708327316392975, guid: 7b2abce0751d97db994dde28bd96fc53, type: 3}
+  _leaderboardItem: {fileID: 3563048300888269750, guid: 088928adbb0d60b1d91a67f0cba50a95, type: 3}
   _popUp: {fileID: 5276984652083929326, guid: 06d173ec80d45399d94712df25f17671, type: 3}

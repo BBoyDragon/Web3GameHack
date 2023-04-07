@@ -1,3 +1,4 @@
+using Code.Leaderboard;
 using NFT;
 using System;
 using System.Collections;
@@ -14,6 +15,7 @@ namespace Code.Menu
         private readonly UiData _data;
         private readonly UIBehaviour _view;
         private ItemShopController[] _shopItems;
+        private ItemLeaderboardController[] _leaderboardItems;
         private PlayerController _playerController;
 
         public event Action OnStartGame;
@@ -25,8 +27,10 @@ namespace Code.Menu
             _view.Init();
             _view.OnStartButtonClick += IncreaseSize;
             _view.OnStartButtonClick += IncreaseTransparency;
-            _view.OnShopButtonClick += OpenShop;
-            _view.OnExitButtonClick += OnExit;
+            _view.OnOpenShopButtonClick += OpenShop;
+            _view.OnOpenLeaderboardButtonClick += OpenLeaderboard;
+            _view.OnExitShopButtonClick += ExitShop;
+            _view.OnExitLeaderboardButtonClick += ExitLeaderboard;
             _view.OnGameStarted += StartGame;
         }
 
@@ -35,8 +39,9 @@ namespace Code.Menu
             _view.CleanUp();
             _view.OnStartButtonClick -= IncreaseSize;
             _view.OnStartButtonClick -= IncreaseTransparency;
-            _view.OnShopButtonClick -= OpenShop;
-            _view.OnExitButtonClick -= OnExit;
+            _view.OnOpenShopButtonClick -= OpenShop;
+            _view.OnOpenLeaderboardButtonClick -= OpenLeaderboard;
+            _view.OnExitShopButtonClick -= ExitShop;
             _view.OnGameStarted -= StartGame;
 
             if (_shopItems != null) 
@@ -57,16 +62,89 @@ namespace Code.Menu
         {
             _view.Animator.SetTrigger(Transparency);
         }
+
+        private void OpenLeaderboard()
+        {
+            _view.StartCoroutine(LoadLeaderboard());
+        }
         
+        private static readonly string addWalletUrl = "https://tonapi.io/login?app=085f941afd4dedddda03cc8708b17c3db6fd9acedf2593117debbc71019a047a353632&callback_url=https://web.api.tonplay.io/auth/v1/tonkeeper?uid=";
         private void OpenShop()
         {
-            _view.StartCoroutine(LoadAllGameAssetsAndFill());
+            if (PlayerPrefs.GetString("Wallet") == "")
+            {
+                var popUpView = Object.Instantiate(_data.PopUp);
+                popUpView.Text = "Please link your Ton wallet";
+                popUpView.ButtonText = "Link";
+                var popUpController = new PopUpController(popUpView, addWalletUrl + PlayerPrefs.GetString("Sub"));
+            }
+            else
+            {
+                _view.StartCoroutine(LoadAllGameAssetsAndFill());
+            }
         }
 
         private static readonly string authToken = "jrN8UPnrck:0L3l7yt4odamcsX2XNvP";
         private static void SetAuthHeader(UnityWebRequest www)
         {
             www.SetRequestHeader("X-Auth-Tonplay", authToken);
+        }
+        
+        private static readonly string leaderboardUrl = "https://ismaxis.ru/api/leaderboard/scores";
+        public IEnumerator LoadLeaderboard()
+        {
+            UnityWebRequest www = UnityWebRequest.Get(leaderboardUrl);
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                var users = JsonUtility.FromJson<Users>(www.downloadHandler.text);
+                var scores = users.scores;
+                Array.Sort(scores, Comparer<User>.Create((u1, u2) => 
+                {
+                    return u1.score.CompareTo(u2.score);
+                }));
+                FillLeaderboard(scores);
+            }
+        }
+
+        private void FillLeaderboard(User[] users)
+        {
+            var leaderboardItemTransform = _data.LeaderboardItem.gameObject.GetComponent<RectTransform>();
+            var leaderboardItemHeight = leaderboardItemTransform.rect.height;
+            var itemContainerTransform = _view.LeaderboardItemsContainer.GetComponent<RectTransform>();
+            itemContainerTransform.sizeDelta = new Vector2(0, users.Length * leaderboardItemHeight + 100);
+            _leaderboardItems = new ItemLeaderboardController[users.Length];
+            var startCoord = -leaderboardItemHeight * (users.Length - 0.5f) - 50;
+            _view.LeaderboardMenu.SetActive(true);
+            for (var i = 0; i < users.Length; i++)
+            {
+                var view = Object.Instantiate(_data.LeaderboardItem, _view.LeaderboardItemsContainer.transform);
+                view.GetComponent<RectTransform>().localPosition = new Vector3(itemContainerTransform.rect.width / 2, startCoord + leaderboardItemHeight * i, 0);
+                _leaderboardItems[i] = new ItemLeaderboardController(view, (users.Length - i).ToString(), users[i].score.ToString(), users[i].username);
+            }
+        }
+
+        private static readonly string allUserAssetsUrl = "https://external.api.tonplay.io/x/tondata/v2/assets/";
+        public IEnumerator LoadAllUserAssetsAndFill()
+        {
+            string userWallet = PlayerPrefs.GetString("Wallet");
+            UnityWebRequest www = UnityWebRequest.Get(allUserAssetsUrl + userWallet);
+            SetAuthHeader(www);
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                FillShop(JsonUtility.FromJson<Content>(www.downloadHandler.text).content);
+            }
         }
 
         private static readonly string allGameAssetsUrl = "https://external.api.tonplay.io/x/tondata/v1/assets/game";
@@ -85,6 +163,7 @@ namespace Code.Menu
                 FillShop(JsonUtility.FromJson<Content>(www.downloadHandler.text).content);
             }
         }
+        
 
 
         private void FillShop(Asset[] assets)
@@ -127,7 +206,7 @@ namespace Code.Menu
             var popUpController = new PopUpController(popUpView, url);
         }
 
-        private void OnExit()
+        private void ExitShop()
         {
             if (_shopItems != null) 
             { 
@@ -137,6 +216,17 @@ namespace Code.Menu
                 }
             }
             _view.ShopMenu.SetActive(false);
+        }
+        private void ExitLeaderboard()
+        {
+            if (_leaderboardItems != null) 
+            { 
+                foreach (var leaderboardItem in _leaderboardItems)
+                {
+                    leaderboardItem.Destroy();
+                }
+            }
+            _view.LeaderboardMenu.SetActive(false);
         }
         private void StartGame()
         {

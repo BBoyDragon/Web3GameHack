@@ -138,9 +138,6 @@ namespace NFT
             public string owner;
             public string attributes;
 
-            // NFT.Asset[] assets = NFT.AssetsRequester.GetAllGameAssets();
-            // NFT.Asset.Attribute[] attributes = assets[0].properties.GetAttributes();
-
             public Attribute[] GetAttributes()
             {
                 return JsonUtility.FromJson<Attributes>("{ \"attributes\": " + attributes + "}").attributes;

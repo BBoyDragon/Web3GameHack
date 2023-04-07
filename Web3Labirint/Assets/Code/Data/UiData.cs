@@ -11,12 +11,15 @@ public class UiData : ScriptableObject
     private GameObject _menuView;
     [SerializeField]
     private GameObject _shopItem;
+    [SerializeField]
+    private GameObject _leaderboardItem;
     [SerializeField] 
     private GameObject _popUp;
     
 
     public UIBehaviour MenuView => _menuView.GetComponent<UIBehaviour>();
     public ItemShopView ShopItem => _shopItem.GetComponent<ItemShopView>();
+    public ItemLeaderboardView LeaderboardItem => _leaderboardItem.GetComponent<ItemLeaderboardView>();
 
     public PopUpView PopUp => _popUp.GetComponent<PopUpView>();
 }
