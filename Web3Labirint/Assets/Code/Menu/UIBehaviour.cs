@@ -22,9 +22,9 @@ namespace Code.Menu
         public GameObject LeaderboardMenu => leaderboardMenu;
 
         public event Action OnStartButtonClick;
-        public event Action OnShopButtonClick;
-        public event Action OnLeaderboardButtonClick;
-        public event Action OnExitButtonClick;
+        public event Action OnOpenShopButtonClick;
+        public event Action OnOpenLeaderboardButtonClick;
+        public event Action OnExitShopButtonClick;
         public event Action OnGameStarted;
 
         public void Init()
@@ -47,15 +47,15 @@ namespace Code.Menu
         }
         private void OnShopOpen()
         {
-            OnShopButtonClick?.Invoke();
+            OnOpenShopButtonClick?.Invoke();
         }
         private void OnExit()
         {
-            OnExitButtonClick?.Invoke();
+            OnExitShopButtonClick?.Invoke();
         }
         private void OnLeaderboardOpen()
         {
-            OnLeaderboardButtonClick?.Invoke();
+            OnOpenLeaderboardButtonClick?.Invoke();
         }
         public void StartGame()
         {

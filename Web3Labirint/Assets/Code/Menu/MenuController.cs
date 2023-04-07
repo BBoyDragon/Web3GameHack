@@ -27,9 +27,9 @@ namespace Code.Menu
             _view.Init();
             _view.OnStartButtonClick += IncreaseSize;
             _view.OnStartButtonClick += IncreaseTransparency;
-            _view.OnShopButtonClick += OpenShop;
-            _view.OnLeaderboardButtonClick += OpenLeaderboard;
-            _view.OnExitButtonClick += OnExit;
+            _view.OnOpenShopButtonClick += OpenShop;
+            _view.OnOpenLeaderboardButtonClick += OpenLeaderboard;
+            _view.OnExitShopButtonClick += ExitShop;
             _view.OnGameStarted += StartGame;
         }
 
@@ -38,9 +38,9 @@ namespace Code.Menu
             _view.CleanUp();
             _view.OnStartButtonClick -= IncreaseSize;
             _view.OnStartButtonClick -= IncreaseTransparency;
-            _view.OnShopButtonClick -= OpenShop;
-            _view.OnLeaderboardButtonClick -= OpenLeaderboard;
-            _view.OnExitButtonClick -= OnExit;
+            _view.OnOpenShopButtonClick -= OpenShop;
+            _view.OnOpenLeaderboardButtonClick -= OpenLeaderboard;
+            _view.OnExitShopButtonClick -= ExitShop;
             _view.OnGameStarted -= StartGame;
 
             if (_shopItems != null) 
@@ -193,7 +193,7 @@ namespace Code.Menu
             var popUpController = new PopUpController(popUpView, url);
         }
 
-        private void OnExit()
+        private void ExitShop()
         {
             if (_shopItems != null) 
             { 
