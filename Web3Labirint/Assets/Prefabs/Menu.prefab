@@ -328,8 +328,10 @@ MonoBehaviour:
   startButton: {fileID: 766911219265584538}
   shopButton: {fileID: 8899301423946974839}
   exitButton: {fileID: 4330252351352329767}
+  leaderboardButton: {fileID: 5531700011672214158}
   shopMenu: {fileID: 6881745935482208016}
   shopItemsContainer: {fileID: 5357696304800395467}
+  leaderboardMenu: {fileID: 2202665369253322818}
 --- !u!1 &766911218905549794
 GameObject:
   m_ObjectHideFlags: 0
@@ -2415,6 +2417,7 @@ GameObject:
   - component: {fileID: 6843056102487813941}
   - component: {fileID: 457452028414695431}
   - component: {fileID: 5960647037726398147}
+  - component: {fileID: 8147682120576150546}
   m_Layer: 5
   m_Name: Scrollbar Vertical
   m_TagString: Untagged
@@ -2530,6 +2533,21 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8147682120576150546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8209237178224779813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ac8f3e66854c3ba865ce195577a426, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: {fileID: 0}
+  score: {fileID: 0}
+  place: {fileID: 0}
 --- !u!1 &8828385204439282944
 GameObject:
   m_ObjectHideFlags: 0
@@ -2699,7 +2717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7092844373339244057, guid: 572c4024df22ac8678299b7fdaf96219, type: 3}
       propertyPath: m_text
-      value: SKIN SHOP
+      value: TOP PLAYERS
       objectReference: {fileID: 0}
     - target: {fileID: 7092844373339244057, guid: 572c4024df22ac8678299b7fdaf96219, type: 3}
       propertyPath: m_fontSize
