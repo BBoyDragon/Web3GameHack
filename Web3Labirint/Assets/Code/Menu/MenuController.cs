@@ -32,6 +32,7 @@ namespace Code.Menu
             _view.OnExitShopButtonClick += ExitShop;
             _view.OnExitLeaderboardButtonClick += ExitLeaderboard;
             _view.OnGameStarted += StartGame;
+            _view.OnSwitchToggle += SwitchMenu;
         }
 
         public void Cleanup()
@@ -43,6 +44,7 @@ namespace Code.Menu
             _view.OnOpenLeaderboardButtonClick -= OpenLeaderboard;
             _view.OnExitShopButtonClick -= ExitShop;
             _view.OnGameStarted -= StartGame;
+            _view.OnSwitchToggle -= SwitchMenu;
 
             if (_shopItems != null) 
             { 
@@ -51,6 +53,12 @@ namespace Code.Menu
                     shopItem.CleanUp();
                 }
             }
+        }
+
+        private void SwitchMenu()
+        {
+            _view.EnableItemsList.SetActive(_view.ShopSwitch);
+            _view.ShopItemsList.SetActive(!_view.ShopSwitch);
         }
 
         private void IncreaseSize()
@@ -78,10 +86,11 @@ namespace Code.Menu
                 popUpView.ButtonText = "Link";
                 var popUpController = new PopUpController(popUpView, addWalletUrl + PlayerPrefs.GetString("Sub"));
             }
-            else
-            {
+            // else
+            // {
                 _view.StartCoroutine(LoadAllGameAssetsAndFill());
-            }
+                _view.EnableItemsList.SetActive(false);
+            // }
         }
 
         private static readonly string authToken = "jrN8UPnrck:0L3l7yt4odamcsX2XNvP";
