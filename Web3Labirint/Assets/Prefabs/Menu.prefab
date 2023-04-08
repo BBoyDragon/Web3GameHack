@@ -4158,7 +4158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8521155924663284868, guid: d65884c4beadf22bbaeae71fd9c9fd96, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8521155924663284868, guid: d65884c4beadf22bbaeae71fd9c9fd96, type: 3}
       propertyPath: m_WholeNumbers
