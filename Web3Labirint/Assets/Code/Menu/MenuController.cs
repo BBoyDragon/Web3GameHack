@@ -32,6 +32,7 @@ namespace Code.Menu
             _view.OnExitShopButtonClick += ExitShop;
             _view.OnExitLeaderboardButtonClick += ExitLeaderboard;
             _view.OnGameStarted += StartGame;
+            _view.OnSwitchToggle += SwitchMenu;
         }
 
         public void Cleanup()
@@ -41,8 +42,10 @@ namespace Code.Menu
             _view.OnStartButtonClick -= IncreaseTransparency;
             _view.OnOpenShopButtonClick -= OpenShop;
             _view.OnOpenLeaderboardButtonClick -= OpenLeaderboard;
+            _view.OnExitLeaderboardButtonClick -= ExitLeaderboard;
             _view.OnExitShopButtonClick -= ExitShop;
             _view.OnGameStarted -= StartGame;
+            _view.OnSwitchToggle -= SwitchMenu;
 
             if (_shopItems != null) 
             { 
@@ -51,6 +54,12 @@ namespace Code.Menu
                     shopItem.CleanUp();
                 }
             }
+        }
+
+        private void SwitchMenu()
+        {
+            _view.EnableItemsList.SetActive(_view.ShopSwitch);
+            _view.ShopItemsList.SetActive(!_view.ShopSwitch);
         }
 
         private void IncreaseSize()
@@ -81,6 +90,7 @@ namespace Code.Menu
             else
             {
                 _view.StartCoroutine(LoadAllGameAssetsAndFill());
+                _view.EnableItemsList.SetActive(false);
             }
         }
 

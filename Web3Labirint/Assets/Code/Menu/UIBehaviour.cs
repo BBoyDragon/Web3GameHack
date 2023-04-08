@@ -17,12 +17,18 @@ namespace Code.Menu
         [SerializeField] private GameObject shopItemsContainer;
         [SerializeField] private GameObject leaderboardItemsContainer;
         [SerializeField] private GameObject leaderboardMenu;
+        [SerializeField] private Slider shopSwitch;
+        [SerializeField] private GameObject shopItemsList;
+        [SerializeField] private GameObject enableItemsList;
 
         public Animator Animator => animator;
         public GameObject ShopMenu => shopMenu;
         public GameObject ShopItemsContainer => shopItemsContainer;
         public GameObject LeaderboardItemsContainer => leaderboardItemsContainer;
         public GameObject LeaderboardMenu => leaderboardMenu;
+        public bool ShopSwitch => Convert.ToBoolean(shopSwitch.value);
+        public GameObject ShopItemsList => shopItemsList;
+        public GameObject EnableItemsList => enableItemsList;
 
         public event Action OnStartButtonClick;
         public event Action OnOpenShopButtonClick;
@@ -30,6 +36,7 @@ namespace Code.Menu
         public event Action OnExitShopButtonClick;
         public event Action OnExitLeaderboardButtonClick;
         public event Action OnGameStarted;
+        public event Action OnSwitchToggle;
 
         public void Init()
         {
@@ -38,6 +45,7 @@ namespace Code.Menu
             leaderboardButton.onClick.AddListener(OnLeaderboardOpen);
             exitShopButton.onClick.AddListener(OnShopExit);
             exitLeaderboardButton.onClick.AddListener(OnLeaderboardExit);
+            shopSwitch.onValueChanged.AddListener(OnSwitch);
         }
         public void CleanUp()
         {
@@ -46,6 +54,7 @@ namespace Code.Menu
             leaderboardButton.onClick.RemoveAllListeners();
             exitShopButton.onClick.RemoveAllListeners();
             exitLeaderboardButton.onClick.RemoveAllListeners();
+            shopSwitch.onValueChanged.RemoveAllListeners();
         }
         private void OnStart()
         {
@@ -66,6 +75,11 @@ namespace Code.Menu
         private void OnLeaderboardExit()
         {
             OnExitLeaderboardButtonClick?.Invoke();
+        }
+
+        private void OnSwitch(float diff)
+        {
+            OnSwitchToggle?.Invoke();
         }
         public void StartGame()
         {
