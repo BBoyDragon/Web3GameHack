@@ -25,6 +25,7 @@ public class PlayerController :IExecute,ICleanup
         _userNameController = userNameController;
         _data = data;
         _view = GameObject.Instantiate<PlayerView>(_data.View);
+        _view.transform.position = new Vector3(11 * 3 - 0.5f, 1, 7 * 3 + 2.5f);
         _canvas = GameObject.Instantiate<Canvas>(_data.Canvas);
         View.Init();
         _cameraController.SetTarget(_view.gameObject);
@@ -45,6 +46,7 @@ public class PlayerController :IExecute,ICleanup
     {
         _canvas.gameObject.SetActive(true);
         ChalkController.ActivateUI();
+        ChalkController.Refresh();
     }
     public void DeactivateUI()
     {
@@ -62,10 +64,12 @@ public class PlayerController :IExecute,ICleanup
         UnityEngine.Object.Destroy(_view.gameObject);
         view.Init();
         _view = view;
+        _view.transform.position = new Vector3(11 * 3 - 0.5f, 1, 7 * 3 + 2.5f);
         _cameraController.SetTarget(view.gameObject);
         _userNameController.PlayerView = view;
         _movementController.View = view;
         _chalkController.PlayerView = view;
+        _chalkController.Refresh();
     }
 
     public void Cleanup()
