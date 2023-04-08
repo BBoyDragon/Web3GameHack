@@ -14,8 +14,8 @@ public class PlayerController :IExecute,ICleanup
     PlayerView _view;
 
     private bool _isDead=false;
+    private bool _isWin = false;
     public event Action OnDie;
-
     public ChalkController ChalkController { get => _chalkController; }
     public PlayerView View { get => _view; set => _view = value; }
 
@@ -33,10 +33,13 @@ public class PlayerController :IExecute,ICleanup
         _chalkController = new ChalkController(View, _data.ChalkData);
         _chalkController.OnDie += Die;
     }
-
+    public void Win()
+    {
+        _isWin = true;
+    }
     public void Execute()
     {
-        if (!_isDead)
+        if (!_isDead&&!_isWin)
         {
             _movementController.Execute();
             ChalkController.Execute();

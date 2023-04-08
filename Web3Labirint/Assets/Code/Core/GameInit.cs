@@ -41,6 +41,7 @@ internal sealed class GameInit : IDisposable
         _playerController.OnDie += _playerController.DeactivateUI;
         _treasureController.OnWin += _finishController.Win;
         _treasureController.OnWin += _playerController.DeactivateUI;
+        _treasureController.OnWin += _playerController.Win;
 
     }
 
@@ -52,5 +53,6 @@ internal sealed class GameInit : IDisposable
         _treasureController.OnWin -= _finishController.Win;
         _playerController.OnDie -= _playerController.DeactivateUI;
         _treasureController.OnWin -= _playerController.DeactivateUI;
+        _treasureController.OnWin -= _playerController.Win;
     }
 }
