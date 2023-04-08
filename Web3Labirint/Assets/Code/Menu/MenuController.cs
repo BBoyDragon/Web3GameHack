@@ -86,11 +86,11 @@ namespace Code.Menu
                 popUpView.ButtonText = "Link";
                 var popUpController = new PopUpController(popUpView, addWalletUrl + PlayerPrefs.GetString("Sub"));
             }
-            // else
-            // {
+            else
+            {
                 _view.StartCoroutine(LoadAllGameAssetsAndFill());
                 _view.EnableItemsList.SetActive(false);
-            // }
+            }
         }
 
         private static readonly string authToken = "jrN8UPnrck:0L3l7yt4odamcsX2XNvP";

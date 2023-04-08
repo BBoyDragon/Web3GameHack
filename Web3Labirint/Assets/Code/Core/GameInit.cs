@@ -15,7 +15,7 @@ internal sealed class GameInit : IDisposable
     private TreasureController _treasureController;
     private BonusController _bonusController;
     private UserNameController _userNameController;
-    private FinishCintroller _finishController;
+    private FinishController _finishController;
     public GameInit(ControllerManager behaviourController, GameController mainController)
     {
         _data = Resources.Load<MetaData>("MetaData");
@@ -36,7 +36,7 @@ internal sealed class GameInit : IDisposable
         _userNameController.PlayerView = _playerController.View;
         behaviourController.Add(_userNameController);
 
-        _finishController = new FinishCintroller(_data.FinishData);
+        _finishController = new FinishController(_data.FinishData);
         _playerController.OnDie += _finishController.Lose;
         _playerController.OnDie += _playerController.DeactivateUI;
         _treasureController.OnWin += _finishController.Win;

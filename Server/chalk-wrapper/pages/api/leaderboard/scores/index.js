@@ -1,30 +1,43 @@
 const fs = require('fs');
 
+const leaderboardPath = "../../../../leaderboard.json";
 export default function handler(req, res) {
   if (req.method === "POST") {
-    const leaderboard = require("../../../../leaderboard.json");
-    updateUser(leaderboard, req);
-    fs.writeFileSync('leaderboard.json', JSON.stringify(leaderboard));
-    res.status(201);
+    if (req.body.sub === undefined || req.body.username === undefined) {
+      res.status(404).json({});
+    } else {
+      try {
+        const leaderboard = getLeaderboard(); 
+        updateUser(leaderboard, req.body.sub, req.body.username);
+        fs.writeFile(leaderboardPath, JSON.stringify(leaderboard), 
+          err => err ? console.error('Error writing file', err) : console.log('Successfully wrote file')
+        )
+        res.status(201).json({});
+      } catch (err) {
+        console.error(err);
+      }
+    }
   } else if (req.method === "GET") {
-    const leaderboard = require("../../../../leaderboard.json");
+    const leaderboard = getLeaderboard();
     res.status(200).json(leaderboard);
   } else {
-    req.status(404);
+    res.status(404).json({});
   }
 }
 
-function updateUser(leaderboard, req) {
+const getLeaderboard = () => JSON.parse(fs.readFileSync(leaderboardPath));
+
+function updateUser(leaderboard, sub, username) {
   for (let user of leaderboard.scores) {
-    if (user["sub"] === req.body.sub) {
-      user["score"] = req.body.score;
-      user["username"] = req.body.username;
+    if (user.sub === sub) {
+      user.score++;
+      user.username = username;
       return;
     }  
   }
   leaderboard.scores.push({
-    "sub":req.body.sub,
-    "score":req.body.score,
-    "username": req.body.username
+    "sub": sub,
+    "score": 1,
+    "username": username
   });
 }
