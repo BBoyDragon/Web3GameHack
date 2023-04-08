@@ -12,6 +12,5 @@ public class FinishData : ScriptableObject
 
     [SerializeField]
     private FinishView _loseView;
-    public FinishView LoseView { get => _loseView;}
-
+    public FinishView LoseView { get => _loseView; }
 }

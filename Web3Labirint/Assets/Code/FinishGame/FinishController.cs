@@ -51,8 +51,7 @@ public class FinishController:ICleanup
     {
         string json = JsonUtility.ToJson(new IncrementScoreBody(PlayerPrefs.GetString("Sub"), 0, PlayerPrefs.GetString("User")));
         var www = new UnityWebRequest(incrementScoreUrl, "POST");
-        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
-        www.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        www.uploadHandler = (UploadHandler)new UploadHandlerRaw(new System.Text.UTF8Encoding().GetBytes(json));
         www.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();

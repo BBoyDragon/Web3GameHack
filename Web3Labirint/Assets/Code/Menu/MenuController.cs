@@ -42,6 +42,7 @@ namespace Code.Menu
             _view.OnStartButtonClick -= IncreaseTransparency;
             _view.OnOpenShopButtonClick -= OpenShop;
             _view.OnOpenLeaderboardButtonClick -= OpenLeaderboard;
+            _view.OnExitLeaderboardButtonClick -= ExitLeaderboard;
             _view.OnExitShopButtonClick -= ExitShop;
             _view.OnGameStarted -= StartGame;
             _view.OnSwitchToggle -= SwitchMenu;
