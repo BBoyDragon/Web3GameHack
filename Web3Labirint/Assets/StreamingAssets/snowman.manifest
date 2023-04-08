@@ -1,0 +1,39 @@
+ManifestFileVersion: 0
+CRC: 2808306714
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6e65c77d14693d8c38533f311f29de1a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5c6b110a695078073ad824430a9ff838
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9b3ab7c1e283c2e4b8f58bbd00cf0bd1, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/BundledAssets/snowman.prefab
+Dependencies: []

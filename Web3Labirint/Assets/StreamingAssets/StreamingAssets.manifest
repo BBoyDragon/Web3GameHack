@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2458017215
+CRC: 3783459798
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -10,4 +10,25 @@ AssetBundleManifest:
       Dependencies: {}
     Info_2:
       Name: purpleguybundle
+      Dependencies: {}
+    Info_3:
+      Name: ambulance
+      Dependencies: {}
+    Info_4:
+      Name: anubis
+      Dependencies: {}
+    Info_5:
+      Name: charger
+      Dependencies: {}
+    Info_6:
+      Name: cactus
+      Dependencies: {}
+    Info_7:
+      Name: snowman
+      Dependencies: {}
+    Info_8:
+      Name: tank
+      Dependencies: {}
+    Info_9:
+      Name: toilet
       Dependencies: {}

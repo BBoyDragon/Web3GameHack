@@ -1,0 +1,41 @@
+ManifestFileVersion: 0
+CRC: 791946714
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a00288f218412dfd4dea3f26d1be77a2
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 67a3b8d7d93d877b5f04b54e6ad7ac08
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9b3ab7c1e283c2e4b8f58bbd00cf0bd1, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/BundledAssets/cactus.prefab
+Dependencies: []
