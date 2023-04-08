@@ -25,12 +25,12 @@ public class ChalkController :IExecute
         _data = data;
         _view = GameObject.Instantiate<ChalkView>(_data.View1);
         _onePercentofChalk = _data.MaxAmountOfChalk / 100;
-        _curentAmountOfChalk = 100*_onePercentofChalk;
+        _curentAmountOfChalk = _data.MaxAmountOfChalk;
     }
 
     public void Execute()
     {
-
+        Debug.Log(_curentAmountOfChalk);
         RaycastHit hit;
         if (Vector3.Distance(PlayerView.transform.position, lastDistance) >= 0.5)
         {
@@ -52,6 +52,7 @@ public class ChalkController :IExecute
     public void Refresh()
     {
         _curentAmountOfChalk = _data.MaxAmountOfChalk;
+        _view.ChalkMeter.fillAmount = (_curentAmountOfChalk / _onePercentofChalk) / 100;
     }
     public void ActivateUI()
     {

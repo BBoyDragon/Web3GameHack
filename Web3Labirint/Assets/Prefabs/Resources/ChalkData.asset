@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChalkData
   m_EditorClassIdentifier: 
   _diePosition: -2
-  _maxAmountOfChalk: 20
+  _maxAmountOfChalk: 50
   _chalkPerSecond: 10
   View: {fileID: 2896795125536770971, guid: bcfc0a8edd7891544a4498b8608de66a, type: 3}
   _brush: {fileID: 6447969792843621046, guid: c183b7a0cf2c24943ba820e2c9da9eb6, type: 3}
