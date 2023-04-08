@@ -15,6 +15,7 @@ namespace Code.Menu
         private readonly UiData _data;
         private readonly UIBehaviour _view;
         private ItemShopController[] _shopItems;
+        private ItemShopController[] _enableItems;
         private ItemLeaderboardController[] _leaderboardItems;
         private PlayerController _playerController;
 
@@ -90,7 +91,7 @@ namespace Code.Menu
             else
             {
                 _view.StartCoroutine(LoadAllGameAssetsAndFill());
-                _view.EnableItemsList.SetActive(false);
+                _view.StartCoroutine(LoadAllUserAssetsAndFill());
             }
         }
 
@@ -153,8 +154,27 @@ namespace Code.Menu
             }
             else
             {
-                FillShop(JsonUtility.FromJson<Content>(www.downloadHandler.text).content);
+                FillEnable(JsonUtility.FromJson<Content>(www.downloadHandler.text).content);
             }
+        }
+
+        private void FillEnable(Asset[] assets)
+        {
+            var shopItemTransform = _data.ShopItem.gameObject.GetComponent<RectTransform>();
+            float shopItemHeight = shopItemTransform.rect.height;
+            var itemContainerTransform = _view.EnableItemsContainer.GetComponent<RectTransform>();
+            itemContainerTransform.sizeDelta = new Vector2(0, assets.Length * shopItemHeight + 100);
+            _enableItems = new ItemShopController[assets.Length];
+            float startCoord = -shopItemHeight * (assets.Length - 0.5f) - 50;
+            _view.EnableItemsList.SetActive(true);
+            for (int i = 0; i < assets.Length; i++)
+            {
+                var view = Object.Instantiate(_data.ShopItem, _view.EnableItemsContainer.transform);
+                view.GetComponent<RectTransform>().localPosition = new Vector3(itemContainerTransform.rect.width / 2, startCoord + shopItemHeight * i, 0);
+                _enableItems[i] = new ItemShopController(this, view, assets[i], false, _playerController);
+                _enableItems[i].ButtonText = "Eqiup";
+            }
+            _view.EnableItemsList.SetActive(false);
         }
 
         private static readonly string allGameAssetsUrl = "https://external.api.tonplay.io/x/tondata/v1/assets/game";
@@ -174,8 +194,6 @@ namespace Code.Menu
             }
         }
         
-
-
         private void FillShop(Asset[] assets)
         {
             var shopItemTransform = _data.ShopItem.gameObject.GetComponent<RectTransform>();
@@ -189,7 +207,7 @@ namespace Code.Menu
             {
                 var view = Object.Instantiate(_data.ShopItem, _view.ShopItemsContainer.transform);
                 view.GetComponent<RectTransform>().localPosition = new Vector3(itemContainerTransform.rect.width / 2, startCoord + shopItemHeight * i, 0);
-                _shopItems[i] = new ItemShopController(this, view, assets[i], _data, _playerController);
+                _shopItems[i] = new ItemShopController(this, view, assets[i], true, _playerController);
             }
         }
 

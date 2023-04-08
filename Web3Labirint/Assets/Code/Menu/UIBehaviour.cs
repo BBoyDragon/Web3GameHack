@@ -15,6 +15,7 @@ namespace Code.Menu
         [SerializeField] private Button leaderboardButton;
         [SerializeField] private GameObject shopMenu;
         [SerializeField] private GameObject shopItemsContainer;
+        [SerializeField] private GameObject enableItemsContainer;
         [SerializeField] private GameObject leaderboardItemsContainer;
         [SerializeField] private GameObject leaderboardMenu;
         [SerializeField] private Slider shopSwitch;
@@ -24,6 +25,7 @@ namespace Code.Menu
         public Animator Animator => animator;
         public GameObject ShopMenu => shopMenu;
         public GameObject ShopItemsContainer => shopItemsContainer;
+        public GameObject EnableItemsContainer => enableItemsContainer;
         public GameObject LeaderboardItemsContainer => leaderboardItemsContainer;
         public GameObject LeaderboardMenu => leaderboardMenu;
         public bool ShopSwitch => Convert.ToBoolean(shopSwitch.value);

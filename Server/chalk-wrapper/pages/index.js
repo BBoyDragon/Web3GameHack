@@ -25,7 +25,7 @@ export default function Home() {
       return;
     }
     sent = true;
-    sendMessage("UserNameView(Clone)", "SetUserJWT", jwt_decode(router.query["token"]).username);
+    sendMessage("UserNameView(Clone)", "SetUserJWT", token);
   };
 
   return (

@@ -11,9 +11,8 @@ public class UserNameView : MonoBehaviour
 
     public TMP_Text Text { get => _text;}
 
-    public void SetUsetJWT(string jwtBody)
+    public void SetUserJWT(string jwtBody)
     {  
-
         JWT.UserJWT jwt = JWT.JWTParser.Parse(jwtBody);
         Text.text = jwt.username;
         PlayerPrefs.SetString("UserName", jwt.username);

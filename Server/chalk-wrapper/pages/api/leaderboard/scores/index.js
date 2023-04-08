@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const leaderboardPath = "../../../../leaderboard.json";
+const leaderboardPath = "/data/www/web3-hack/ChalkMazeServer/leaderboard.json";
 export default function handler(req, res) {
   if (req.method === "POST") {
     if (req.body.sub === undefined || req.body.username === undefined) {

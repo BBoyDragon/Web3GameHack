@@ -30,7 +30,6 @@ public class ChalkController :IExecute
 
     public void Execute()
     {
-        Debug.Log(_curentAmountOfChalk);
         RaycastHit hit;
         if (Vector3.Distance(PlayerView.transform.position, lastDistance) >= 0.5)
         {

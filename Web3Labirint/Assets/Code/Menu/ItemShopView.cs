@@ -9,35 +9,27 @@ namespace Code.Menu
     public class ItemShopView : MonoBehaviour
     {
         [SerializeField] private Image image;
-        [SerializeField] private Button buyButton;
-        [SerializeField] private Button equipButton;
+        [SerializeField] private Button button;
 
         public Image Image => image;
 
-        public Button BuyButton => buyButton;
-        public Button EquipButton => equipButton;
+        public Button Button => button;
 
-        public event Action OnBuyButtonClick;
-        public event Action OnEquipButtonClick;
+        public event Action OnButtonClick;
         
         public void Init()
         {
-            buyButton.onClick.AddListener(OnBuy);
-            equipButton.onClick.AddListener(OnEquip);
+            button.onClick.AddListener(OnBuy);
         }
         
         public void CleanUp()
         {
-            buyButton.onClick.RemoveAllListeners();
+            button.onClick.RemoveAllListeners();
         }
 
         private void OnBuy()
         {
-            OnBuyButtonClick?.Invoke();
-        }
-        private void OnEquip()
-        {
-            OnEquipButtonClick?.Invoke();
+            OnButtonClick?.Invoke();
         }
 
         public void LoadAssetFromBundle(string bundleUrl, string assetName, PlayerController playerController)
