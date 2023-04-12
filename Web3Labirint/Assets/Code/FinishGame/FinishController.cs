@@ -49,7 +49,7 @@ public class FinishController:ICleanup
     private static readonly string incrementScoreUrl = "https://ismaxis.ru/api/leaderboard/scores";
     private IEnumerator IncrementScore()
     {
-        string json = JsonUtility.ToJson(new IncrementScoreBody(PlayerPrefs.GetString("Sub"), 0, PlayerPrefs.GetString("User")));
+        string json = JsonUtility.ToJson(new IncrementScoreBody(PlayerPrefs.GetString("Sub"), 0, PlayerPrefs.GetString("UserName")));
         var www = new UnityWebRequest(incrementScoreUrl, "POST");
         www.uploadHandler = (UploadHandler)new UploadHandlerRaw(new System.Text.UTF8Encoding().GetBytes(json));
         www.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
